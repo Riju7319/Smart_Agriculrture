@@ -1,0 +1,14 @@
+﻿CREATE TABLE farmers (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    address TEXT NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    farming_type VARCHAR(50) NOT NULL,
+    iot_tools_used VARCHAR(3) CHECK (iot_tools_used IN ('Yes', 'No')) NOT NULL,
+    email VARCHAR(100) NULL,
+    land_size DECIMAL(10,2) NULL,
+    major_crops VARCHAR(255) NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE()
+);
