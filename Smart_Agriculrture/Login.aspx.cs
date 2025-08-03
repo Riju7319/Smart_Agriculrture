@@ -12,18 +12,18 @@ namespace Smart_Agriculrture
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            string phone = txtPhone.Text.Trim();
+            string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
             string hashedPassword = HashPassword(password);
 
             string connStr = ConfigurationManager.ConnectionStrings["SmartAgriDB"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string query = "SELECT id, full_name FROM farmers WHERE phone = @phone AND password_hash = @passwordHash";
+                string query = "SELECT id, full_name FROM farmers WHERE email = @email AND password_hash = @passwordHash";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@phone", phone);
+                    cmd.Parameters.AddWithValue("@email", email);
                     cmd.Parameters.AddWithValue("@passwordHash", hashedPassword);
 
                     conn.Open();
@@ -33,7 +33,7 @@ namespace Smart_Agriculrture
                     {
                         Session["FarmerID"] = reader["id"];
                         Session["FarmerName"] = reader["full_name"];
-                        Response.Redirect("Dashboard.aspx");
+                        Response.Redirect("Default.aspx");
                     }
                     else
                     {

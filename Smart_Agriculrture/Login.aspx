@@ -75,8 +75,8 @@ input {
     <div class="login-container">
         <h2>Farmer Login</h2>
 
-        <label for="txtPhone">Phone Number</label>
-        <asp:TextBox ID="txtPhone" runat="server" required="true" TextMode="Phone" />
+        <label for="txtPhone">Email</label>
+        <asp:TextBox ID="txtEmail" runat="server" required="true" TextMode="Email" />
 
         <label for="txtPassword">Password</label>
         <asp:TextBox ID="txtPassword" runat="server" required="true" TextMode="Password" />
