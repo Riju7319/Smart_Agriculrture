@@ -1,0 +1,133 @@
+#include <SimpleDHT.h>
+
+// for DHT11, 
+//      VCC: 5V or 3V
+//      GND: GND
+//      DATA: 2
+int pinDHT11 = 2;
+int buz=10;
+int Pump = 3;
+int Light=4;
+int smoke = A2;//gas sensore
+int sensorThreshold = 450;//gas sensore
+
+int sensorPin = A1; //soil humanidity
+int sensorValue;  
+int limit = 300;
+
+
+int Fan=7;
+
+int GreenLed=5;
+int RedLed=6;
+
+SimpleDHT11 dht11(pinDHT11);
+
+void setup() {
+  pinMode(buz,OUTPUT);
+  pinMode(smoke, INPUT);
+  pinMode(Pump,OUTPUT);
+  pinMode(Light,OUTPUT);
+  pinMode(GreenLed,OUTPUT);
+  pinMode(RedLed,OUTPUT);
+  pinMode(Fan,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  
+  
+  // start working...
+  Serial.println("=================================");
+  
+ 
+  byte temperature = 0;
+  byte humidity = 0;
+  int err = SimpleDHTErrSuccess;
+  if ((err = dht11.read(&temperature, &humidity, NULL)) != SimpleDHTErrSuccess) {
+    Serial.print("Read DHT11 failed, err="); Serial.print(SimpleDHTErrCode(err));
+    Serial.print(","); Serial.println(SimpleDHTErrDuration(err)); delay(1000);
+    return;
+  }
+  int hot=28;//*c
+  int hum=50;
+  Serial.print("Now Current \nTemperature & Humanidity: ");
+  Serial.print((int)temperature); Serial.print(" *C, "); 
+  Serial.print((int)humidity); Serial.println(" H");
+ if((int)temperature<=hot)
+  {
+    
+    digitalWrite(RedLed,LOW);
+    digitalWrite(GreenLed,HIGH);
+    digitalWrite(Fan, LOW);
+    
+  }
+  else{
+    
+    digitalWrite(RedLed,HIGH);
+    digitalWrite(GreenLed,LOW);
+    digitalWrite(Fan, HIGH);
+  }
+  
+  // DHT11 sampling rate is 1HZ.
+
+
+
+  //MQ2 sensore
+  int analogSensor = analogRead(smoke);
+  int gascon=analogSensor/10;
+  Serial.print("Gas Contain bad Ingrident: ");
+  Serial.print(gascon);
+  Serial.println("%");
+  if (analogSensor > sensorThreshold)
+  {
+    
+    tone(buz, 700, 1000);
+  }
+  else
+  {
+    
+    noTone(buz);
+  }
+
+//soil Huminidity sensore
+ sensorValue = analogRead(sensorPin); 
+ Serial.print("Soil Dryness : ");
+ int soilcon=sensorValue/10;
+ Serial.print(soilcon);
+ Serial.println("%");
+  if (sensorValue<limit) {
+ digitalWrite(Pump, LOW); 
+ }
+ else {
+ digitalWrite(Pump, HIGH); 
+ }
+ 
+/* if (sensorValue<limit) {
+ digitalWrite(Fan, HIGH); 
+ }
+ else {
+ digitalWrite(Fan, LOW); 
+ }*/
+Serial.print("Light Intencity : ");
+ unsigned int AnalogValue;
+
+AnalogValue = analogRead(A0);
+int lightcon=AnalogValue/10;
+if (AnalogValue<150) 
+{
+ digitalWrite(Light, HIGH); 
+ }
+ else 
+ {
+ digitalWrite(Light, LOW); 
+ }
+Serial.print(lightcon);
+Serial.println("%");
+ 
+ 
+
+ 
+  Serial.print("=================================\n");
+  delay(1500);
+}

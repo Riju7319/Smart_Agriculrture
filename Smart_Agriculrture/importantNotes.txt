@@ -1,0 +1,4 @@
+﻿Weather API
+link -https://home.openweathermap.org/
+user- rijukarmakar9593@gmail.com
+pass- home.openweathermap.org
