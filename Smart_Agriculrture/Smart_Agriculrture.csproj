@@ -124,6 +124,11 @@
     <Content Include="Global.asax" />
     <Content Include="importantNotes.txt" />
     <Content Include="Login.aspx" />
+    <Content Include="Projects\Irrigation_System\diagram arduino ino.png" />
+    <Content Include="Projects\Irrigation_System\final project code.txt" />
+    <Content Include="Projects\Irrigation_System\newsoft.png" />
+    <Content Include="Projects\Irrigation_System\pv.mp4" />
+    <Content Include="Projects\Irrigation_System\soft.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -155,6 +160,7 @@
     <Content Include="SignUp.aspx" />
     <Content Include="UpcommingWeather.aspx" />
     <Content Include="IrrigationSystem.aspx" />
+    <Content Include="Projects\Irrigation_System\Project estimate .pdf" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -260,7 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Projects\Irrigation_System\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

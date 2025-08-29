@@ -36,7 +36,7 @@
         <!-- PDF Download Button -->
         <div class="mb-5 d-flex flex-column flex-sm-row align-items-sm-center gap-2">
             <h5 class="mb-0">System Documentation:</h5>
-            <a href="/Projects/Irrigation_System/Project estimate .pdf" target="_blank" class="btn btn-success">
+            <a href="Projects/Irrigation_System/Project estimate .pdf" target="_blank" class="btn btn-success">
                 📥 Download Project Estimate PDF
             </a>
         </div>
@@ -55,14 +55,14 @@
         <!-- Prototype Diagram -->
         <h4 class="mb-3">Prototype Diagram</h4>
         <div class="text-center mb-4">
-            <img src="/Projects/Irrigation_System/diagram arduino ino.png" alt="System Diagram" class="img-fluid rounded shadow w-100" style="max-width: 600px;" />
+            <img src="Projects/Irrigation_System/diagram arduino ino.png" alt="System Diagram" class="img-fluid rounded shadow w-100" style="max-width: 600px;" />
         </div>
 
         <!-- Project Video -->
         <h4 class="mb-3">Project Demonstration Video</h4>
         <div class="ratio ratio-16x9 mb-4">
             <video controls class="w-100 rounded shadow">
-                <source src="/Projects/Irrigation_System/pv.mp4" type="video/mp4">
+                <source src="Projects/Irrigation_System/pv.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -71,10 +71,10 @@
         <h4 class="mb-3">Software Screenshots</h4>
         <div class="row mb-4">
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <img src="/Projects/Irrigation_System/soft.png" class="img-fluid img-thumbnail" alt="Screenshot 1">
+                <img src="Projects/Irrigation_System/soft.png" class="img-fluid img-thumbnail" alt="Screenshot 1">
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <img src="/Projects/Irrigation_System/newsoft.png" class="img-fluid img-thumbnail" alt="Screenshot 2">
+                <img src="Projects/Irrigation_System/newsoft.png" class="img-fluid img-thumbnail" alt="Screenshot 2">
             </div>
         </div>
 
@@ -87,7 +87,7 @@
         <!-- Source Code Button -->
         <h4 class="mb-3">Source Code</h4>
         <div class="mb-5">
-            <a href="/Projects/Irrigation_System/final project code.txt" class="btn btn-primary">👨‍💻 View Source Code</a>
+            <a href="Projects/Irrigation_System/final project code.txt" class="btn btn-primary">👨‍💻 View Source Code</a>
         </div>
 
         <!-- Conclusion -->
