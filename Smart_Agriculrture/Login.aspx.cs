@@ -33,7 +33,7 @@ namespace Smart_Agriculrture
                     {
                         Session["FarmerID"] = reader["id"];
                         Session["FarmerName"] = reader["full_name"];
-                        Response.Redirect("Default.aspx");
+                        Response.Redirect("WeatherData/ViewSensoreData.aspx");
                     }
                     else
                     {

@@ -202,7 +202,13 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="WeatherData\ViewSensorData.aspx" />
+    <Content Include="WeatherData\humiditydata.aspx" />
+    <Content Include="WeatherData\lightcontroldata.aspx" />
+    <Content Include="WeatherData\lightdata.aspx" />
+    <Content Include="WeatherData\pumpdata.aspx" />
+    <Content Include="WeatherData\soildata.aspx" />
+    <Content Include="WeatherData\temperaturedata.aspx" />
+    <Content Include="WeatherData\ViewSensoreData.aspx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
   </ItemGroup>
@@ -223,6 +229,7 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AuthHelper.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -283,12 +290,54 @@
     <Compile Include="IrrigationSystem.aspx.designer.cs">
       <DependentUpon>IrrigationSystem.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WeatherData\ViewSensorData.aspx.cs">
-      <DependentUpon>ViewSensorData.aspx</DependentUpon>
+    <Compile Include="WeatherData\humiditydata.aspx.cs">
+      <DependentUpon>humiditydata.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WeatherData\ViewSensorData.aspx.designer.cs">
-      <DependentUpon>ViewSensorData.aspx</DependentUpon>
+    <Compile Include="WeatherData\humiditydata.aspx.designer.cs">
+      <DependentUpon>humiditydata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\lightcontroldata.aspx.cs">
+      <DependentUpon>lightcontroldata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\lightcontroldata.aspx.designer.cs">
+      <DependentUpon>lightcontroldata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\lightdata.aspx.cs">
+      <DependentUpon>lightdata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\lightdata.aspx.designer.cs">
+      <DependentUpon>lightdata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\pumpdata.aspx.cs">
+      <DependentUpon>pumpdata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\pumpdata.aspx.designer.cs">
+      <DependentUpon>pumpdata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\soildata.aspx.cs">
+      <DependentUpon>soildata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\soildata.aspx.designer.cs">
+      <DependentUpon>soildata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\temperaturedata.aspx.cs">
+      <DependentUpon>temperaturedata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\temperaturedata.aspx.designer.cs">
+      <DependentUpon>temperaturedata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\ViewSensoreData.aspx.cs">
+      <DependentUpon>ViewSensoreData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\ViewSensoreData.aspx.designer.cs">
+      <DependentUpon>ViewSensoreData.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
