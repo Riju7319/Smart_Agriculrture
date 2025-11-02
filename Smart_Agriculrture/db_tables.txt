@@ -41,3 +41,9 @@ CREATE TABLE SensorLogs (
     -- Metadata
     Timestamp DATETIME NULL
 );
+
+CREATE TABLE Devices (
+    DeviceID INT IDENTITY(1,1) PRIMARY KEY,
+    DeviceName NVARCHAR(100) NOT NULL,
+    LastHeartbeat DATETIME NOT NULL DEFAULT GETDATE()
+);

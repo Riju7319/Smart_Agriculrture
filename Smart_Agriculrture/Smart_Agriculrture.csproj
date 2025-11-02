@@ -202,6 +202,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="WeatherData\DeviceStatus.aspx" />
     <Content Include="WeatherData\humiditydata.aspx" />
     <Content Include="WeatherData\lightcontroldata.aspx" />
     <Content Include="WeatherData\lightdata.aspx" />
@@ -289,6 +290,13 @@
     </Compile>
     <Compile Include="IrrigationSystem.aspx.designer.cs">
       <DependentUpon>IrrigationSystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherData\DeviceStatus.aspx.cs">
+      <DependentUpon>DeviceStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeatherData\DeviceStatus.aspx.designer.cs">
+      <DependentUpon>DeviceStatus.aspx</DependentUpon>
     </Compile>
     <Compile Include="WeatherData\humiditydata.aspx.cs">
       <DependentUpon>humiditydata.aspx</DependentUpon>
