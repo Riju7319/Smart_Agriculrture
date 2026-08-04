@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR MOBILE VIEW -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Operating System – Kernel & System Call Exam</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #f4f6f8;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        h1 {
+            font-size: 22px;
+        }
+
+        h2 {
+            font-size: 16px;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #c40000;
+            margin: 15px 0;
+        }
+
+        .warning {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .section {
+            background: #ffffff;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+        }
+
+            .section h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+        .question {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .marks {
+            font-weight: bold;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .time-over {
+            text-align: center;
+            font-size: 22px;
+            color: red;
+            font-weight: bold;
+            margin-top: 80px;
+        }
+
+        /* ✅ TABLET & DESKTOP */
+        @media (min-width: 768px) {
+            body {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .timer {
+                font-size: 22px;
+            }
+
+            .section h3 {
+                font-size: 18px;
+            }
+
+            .question {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Computer Operating System</h1>
+    <h2>Topic: Kernel, User Mode & System Call</h2>
+    <h2>Time: 1 Hour</h2>
+
+    <div class="timer" id="timer">Time Left: 60:00</div>
+    <div class="warning" id="warning"></div>
+
+    <div id="paper">
+
+        <div class="section">
+            <h3>Section – A : Short Answer Questions</h3>
+            <div class="question">1. প্রসেসর মোড ও ইউজার মোড বলতে কি বোঝায়?</div>
+            <div class="question">2. কার্নেল কি?</div>
+            <div class="question">3. কার্নেলের একটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">4. ইউজার মোডের দুটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">5. সিস্টেম কল (System Call) কি?</div>
+            <div class="question">6. সিস্টেম প্রোগ্রাম কি?</div>
+            <div class="question">7. গুরুত্বপূর্ণ কিছু সিস্টেম কলের নাম লেখো।</div>
+            <div class="question">8. সিস্টেম প্রোগ্রামের দুটি উদাহরণ লেখো।</div>
+            <div class="question">9. সিস্টেম প্রোগ্রামের একটি সুবিধা ও একটি অসুবিধা লেখো।</div>
+            <div class="question">10. সিস্টেম প্রোগ্রামের দুটি উদাহরণ দাও।</div>
+        </div>
+
+        <div class="section">
+            <h3>Section – B : Short Answer Questions</h3>
+            <div class="question">1. ইউজার মোড কি? এর দুটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">2. অপারেটিং সিস্টেমের কার্নেল মোড কি? কার্নেলের দুটি প্রধান কাজ লেখো।</div>
+            <div class="question">3. কার্নেল কয়প্রকার? প্রকারগুলির বর্ণনা করো।</div>
+            <div class="question">4. ইউজার মোড ও কার্নেল মোডের মধ্যে পার্থক্য লেখো।</div>
+            <div class="question">5. সিস্টেম কল বলতে কি বোঝো?</div>
+            <div class="question">6. সিস্টেম কলের তিনটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">7. সিস্টেম প্রোগ্রামের তিনটি করে সুবিধা ও অসুবিধা লেখো।</div>
+            <div class="question">8. সিস্টেম প্রোগ্রাম কাকে বলে? সিস্টেম প্রোগ্রামের উদাহরণ লেখো।</div>
+        </div>
+
+        <div class="section">
+            <h3>Section – C : Descriptive Questions</h3>
+            <div class="question">1. ইউজার মোড এবং কার্নেল মোডের মধ্যে পার্থক্য লেখো।</div>
+            <div class="question">2. কার্নেল মোড কি? কার্নেলের হার্ডওয়্যার এবং সফ্টওয়্যারের মধ্যে সংযোগ স্থাপন করার উদ্দেশ্য কি?</div>
+            <div class="question">3. মোনোলিথিক কার্নেল এবং মাইক্রোকার্নেলের মধ্যে পার্থক্য লেখো।</div>
+            <div class="question">4. সিস্টেম কল ও সিস্টেম প্রোগ্রামের মধ্যে পার্থক্য লেখো।</div>
+            <div class="question">5. কার্নেলের প্রধান কাজগুলি কি কি তা লেখো।</div>
+            <div class="question">6. সিস্টেম কলের কাজ করার পদ্ধতি লেখো ও কয়েকটি উদাহরণ লেখো।</div>
+            <div class="question">7. সিস্টেম কলের পাঁচটি বৈশিষ্ট্য উল্লেখ করো।</div>
+        </div>
+
+    </div>
+
+    <script>
+let examActive = true;
+let tabSwitchCount = 0;
+let totalTime = 60 * 60;
+
+const timerInterval = setInterval(() => {
+    let m = Math.floor(totalTime / 60);
+    let s = totalTime % 60;
+    document.getElementById("timer").innerHTML =
+        `Time Left: ${m}:${s < 10 ? "0" : ""}${s}`;
+
+    if (totalTime <= 0) {
+        clearInterval(timerInterval);
+        examActive = false;
+        document.getElementById("paper").innerHTML = "";
+        document.body.innerHTML += `<div class="time-over">⏰ TIME OVER</div>`;
+    }
+    totalTime--;
+}, 1000);
+
+/* Block Refresh */
+document.addEventListener("keydown", e => {
+    if (examActive && (e.key === "F5" || (e.ctrlKey && e.key === "r"))) {
+        e.preventDefault();
+        alert("Refresh disabled during exam!");
+    }
+});
+
+/* Tab Switch */
+document.addEventListener("visibilitychange", () => {
+    if (examActive && document.hidden) {
+        tabSwitchCount++;
+        document.getElementById("warning").innerText =
+            `Warning: Tab switched ${tabSwitchCount} time(s)`;
+    }
+});
+
+/* Block Close */
+window.addEventListener("beforeunload", e => {
+    if (examActive) {
+        e.preventDefault();
+        e.returnValue = "";
+    }
+});
+    </script>
+
+</body>
+</html>

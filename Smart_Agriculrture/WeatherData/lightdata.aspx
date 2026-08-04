@@ -97,7 +97,7 @@
         </div>
 
         <script>
-            const apiUrl = "https://api.thingspeak.com/channels/3137414/feeds.json?api_key=O24VY64WB8H3Y2XT";
+            const apiUrl = "https://api.thingspeak.com/channels/3229994/feeds.json?api_key=W7LGD7SPBJ7YOB5O";
             let lightChart = null;
             let donutChart = null;
 

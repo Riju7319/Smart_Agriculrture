@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ✅ MOBILE VIEWPORT FIX -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OS Exam – Limited Choice Pattern</title>
+
+    <style>
+        /* ===== GLOBAL RESET ===== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Segoe UI, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 12px;
+            line-height: 1.5;
+        }
+
+        /* ===== HEADINGS ===== */
+        h1 {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        h2 {
+            font-size: 1rem;
+            text-align: center;
+            margin: 4px 0;
+        }
+
+        /* ===== TIMER ===== */
+        .timer {
+            position: sticky;
+            top: 0;
+            background: #fff3f3;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #c40000;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 10px 0;
+            z-index: 1000;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            background: #ffffff;
+            padding: 12px;
+            margin-top: 14px;
+            border-radius: 8px;
+        }
+
+            /* ===== TEXT ===== */
+            .section h3 {
+                font-size: 1rem;
+                margin-bottom: 6px;
+            }
+
+        .note {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .question {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+
+        /* ===== TIME OVER ===== */
+        .time-over {
+            text-align: center;
+            font-size: 1.4rem;
+            color: red;
+            margin-top: 80px;
+            font-weight: bold;
+        }
+
+        /* ===== DESKTOP ENHANCEMENT ===== */
+        @media (min-width: 768px) {
+            body {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .question {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Operating System</h1>
+    <h2>Process Management & Scheduling</h2>
+    <h2>Full Marks: 25 | Time: 1 Hour</h2>
+
+    <div class="timer" id="timer">Time Left: 60:00</div>
+    <div id="paper"></div>
+
+    <script>
+let examActive = true;
+
+/* Shuffle */
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+/* IMPORTANT QUESTIONS */
+
+/* Section A (7 → attempt any 5) */
+let A = shuffle([
+    "Process Management বলতে কি বোঝো?",
+    "Process কি?",
+    "Resource কি?",
+    "Process ও Resource এর সম্পর্ক লেখো।",
+    "Process Control Block (PCB) কি?",
+    "CPU-bound Process কি?",
+    "I/O-bound Process কি?"
+]);
+
+/* Section B (7 → attempt any 5) */
+let B = shuffle([
+    "Process Control Block কি? এর উপাদানগুলি লেখো।",
+    "PCB-এর গুরুত্ব বা তাৎপর্য লেখো।",
+    "Scheduling কি? এর উদ্দেশ্য লেখো।",
+    "Preemptive Scheduling কি?",
+    "Non-preemptive Scheduling কি?",
+    "FCFS Scheduling কি? এর সুবিধা ও অসুবিধা লেখো।",
+    "Deadlock কি?"
+]);
+
+/* Section C (3 → attempt any 1) */
+let C = shuffle([
+    "Process Control Block কি? এর উপাদানগুলি আলোচনা করো।",
+    "FCFS Scheduling পদ্ধতি উদাহরণসহ ব্যাখ্যা করো।",
+    "Shortest Job First (SJF) Scheduling এর সুবিধা ও অসুবিধা লেখো।"
+]);
+
+/* Render */
+function render(title, note, questions) {
+    let html = `<div class="section">
+        <h3>${title}</h3>
+        <div class="note">${note}</div>`;
+    questions.forEach((q, i) => {
+        html += `<div class="question">${i + 1}. ${q}</div>`;
+    });
+    html += `</div>`;
+    return html;
+}
+
+document.getElementById("paper").innerHTML =
+    render("Section A (5 × 1 = 5)", "Attempt any 5 questions out of 7", A) +
+    render("Section B (5 × 2 = 10)", "Attempt any 5 questions out of 7", B) +
+    render("Section C (1 × 5 = 5)", "Attempt any 1 question", C);
+
+/* Timer */
+let time = 3600;
+let timer = setInterval(() => {
+    let m = Math.floor(time / 60);
+    let s = time % 60;
+    document.getElementById("timer").innerHTML =
+        `Time Left: ${m}:${s < 10 ? "0" : ""}${s}`;
+    if (time <= 0) {
+        clearInterval(timer);
+        examActive = false;
+        document.getElementById("paper").innerHTML = "";
+        document.getElementById("timer").innerHTML = "";
+        document.body.innerHTML += `<div class="time-over">TIME OVER</div>`;
+    }
+    time--;
+}, 1000);
+
+/* Block Refresh */
+document.addEventListener("keydown", e => {
+    if (examActive && (e.key === "F5" || (e.ctrlKey && e.key === "r"))) {
+        e.preventDefault();
+        alert("Refresh disabled during exam");
+    }
+});
+
+window.addEventListener("beforeunload", e => {
+    if (examActive) {
+        e.preventDefault();
+        e.returnValue = "";
+    }
+});
+    </script>
+
+</body>
+</html>
+

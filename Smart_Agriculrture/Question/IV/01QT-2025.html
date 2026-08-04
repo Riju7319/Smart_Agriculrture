@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Operating System Exam</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 30px;
+            background: #f4f6f8;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #c40000;
+            margin: 20px 0;
+        }
+
+        .section {
+            background: #ffffff;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 6px;
+        }
+
+        .question {
+            margin-bottom: 8px;
+        }
+
+        .marks {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .warning {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .time-over {
+            text-align: center;
+            font-size: 30px;
+            color: red;
+            font-weight: bold;
+            margin-top: 120px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Computer Operating System</h1>
+    <h2>Full Marks: 25 | Time: 1 Hour</h2>
+
+    <div class="timer" id="timer">Time Left: 60:00</div>
+    <div class="warning" id="warning"></div>
+
+    <div id="paper">
+
+        <!-- Section A -->
+        <div class="section">
+            <h3>Section – A : Very Short Answer <span class="marks">(Any 5) | 5 × 1 = 5</span></h3>
+
+            <div class="question">1. অপারেটিং সিস্টেম কাকে বলে?</div>
+            <div class="question">2. ফাইল ব্যবস্থাপনা (File Management) বলতে কি বোঝো?</div>
+            <div class="question">3. প্রসেস ম্যানেজমেন্টের একটি কাজ লেখো।</div>
+            <div class="question">4. টাইম-শেয়ারিং অপারেটিং সিস্টেম কি?</div>
+            <div class="question">5. মাল্টিপ্রসেসিং অপারেটিং সিস্টেম কি?</div>
+            <div class="question">6. ডিস্ট্রিবিউটেড অপারেটিং সিস্টেম কি?</div>
+            <div class="question">7. রিয়েল-টাইম অপারেটিং সিস্টেম কি?</div>
+        </div>
+
+        <!-- Section B -->
+        <div class="section">
+            <h3>Section – B : Short Answer <span class="marks">(Any 5) | 5 × 2 = 10</span></h3>
+
+            <div class="question">1. অপারেটিং সিস্টেমের দুটি প্রধান কাজ লেখো।</div>
+            <div class="question">2. ব্যাচ প্রসেসিং অপারেটিং সিস্টেম কি? একটি সুবিধা লেখো।</div>
+            <div class="question">3. মাল্টি প্রোগ্রামিং কি? এটি কিভাবে CPU-এর দক্ষতা বাড়ায়?</div>
+            <div class="question">4. টাইম-শেয়ারিং অপারেটিং সিস্টেমের একটি সুবিধা ও একটি অসুবিধা লেখো।</div>
+            <div class="question">5. মাল্টিপ্রসেসিং অপারেটিং সিস্টেমের দুটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">6. ডিস্ট্রিবিউটেড অপারেটিং সিস্টেমের দুটি বৈশিষ্ট্য লেখো।</div>
+            <div class="question">7. বাফারিং ও স্পুলিং বলতে কি বোঝো?</div>
+        </div>
+
+        <!-- Section C -->
+        <div class="section">
+            <h3>Section – C : Descriptive <span class="marks">(Any 2) | 2 × 5 = 10</span></h3>
+
+            <div class="question">1. অপারেটিং সিস্টেম কি? এর তিনটি গুরুত্বপূর্ণ কাজ ব্যাখ্যা করো।</div>
+            <div class="question">2. ব্যাচ প্রসেসিং ও টাইম-শেয়ারিং অপারেটিং সিস্টেমের মধ্যে পার্থক্য লেখো।</div>
+            <div class="question">3. মাল্টি প্রোগ্রামিং কি? এর দুটি সুবিধা ও একটি অসুবিধা লেখো।</div>
+            <div class="question">4. রিয়েল-টাইম অপারেটিং সিস্টেম কি? এটি কোথায় ব্যবহৃত হয় এবং কেন গুরুত্বপূর্ণ?</div>
+        </div>
+
+    </div>
+
+    <script>
+/* ================= GLOBAL FLAGS ================= */
+let examActive = true;
+let tabSwitchCount = 0;
+
+/* ================= TIMER ================= */
+let totalTime = 60 * 60; // 1 hour in seconds
+
+const timerInterval = setInterval(() => {
+    let minutes = Math.floor(totalTime / 60);
+    let seconds = totalTime % 60;
+
+    document.getElementById("timer").innerHTML =
+        `Time Left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+    if (totalTime <= 0) {
+        clearInterval(timerInterval);
+        examActive = false;
+
+        document.getElementById("paper").innerHTML = "";
+        document.getElementById("timer").innerHTML = "";
+
+        document.body.innerHTML +=
+            `<div class="time-over">⏰ TIME OVER<br>Question Paper Closed</div>`;
+    }
+
+    totalTime--;
+}, 1000);
+
+/* ================= BLOCK REFRESH ================= */
+document.addEventListener("keydown", function (e) {
+    if (examActive) {
+        if (
+            e.key === "F5" ||
+            (e.ctrlKey && e.key.toLowerCase() === "r") ||
+            (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "r")
+        ) {
+            e.preventDefault();
+            alert("⚠ Page refresh is disabled during the exam!");
+        }
+    }
+});
+
+/* ================= TAB SWITCH DETECTION ================= */
+document.addEventListener("visibilitychange", function () {
+    if (examActive && document.hidden) {
+        tabSwitchCount++;
+        document.getElementById("warning").innerText =
+            `⚠ Warning: Tab switched ${tabSwitchCount} time(s)!`;
+
+        if (tabSwitchCount >= 3) {
+            examActive = false;
+            document.getElementById("paper").innerHTML = "";
+            document.body.innerHTML +=
+                `<div class="time-over">❌ EXAM TERMINATED<br>Tab switching detected</div>`;
+        }
+    }
+});
+
+/* ================= BLOCK CLOSE ================= */
+window.addEventListener("beforeunload", function (e) {
+    if (examActive) {
+        e.preventDefault();
+        e.returnValue = "Exam is running. You cannot refresh or close the page.";
+    }
+});
+    </script>
+
+</body>
+</html>

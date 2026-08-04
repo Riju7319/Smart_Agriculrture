@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -139,6 +139,11 @@
     <Content Include="Projects\Irrigation_System\newsoft.png" />
     <Content Include="Projects\Irrigation_System\pv.mp4" />
     <Content Include="Projects\Irrigation_System\soft.png" />
+    <Content Include="Question\control.html" />
+    <Content Include="Question\II\01QT-2025.html" />
+    <Content Include="Question\IV\01QT-2025.html" />
+    <Content Include="Question\IV\02-QT-2025.html" />
+    <Content Include="Question\IV\03-QT-2025.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -210,6 +215,12 @@
     <Content Include="WeatherData\soildata.aspx" />
     <Content Include="WeatherData\temperaturedata.aspx" />
     <Content Include="WeatherData\ViewSensoreData.aspx" />
+    <Content Include="Companies\Companies.aspx" />
+    <Content Include="Companies\CompanyDetails.aspx" />
+    <Content Include="Companies\CreateInvoice.aspx" />
+    <Content Include="Companies\InvoiceView.aspx" />
+    <Content Include="Companies\PublicInvoice.aspx" />
+    <Content Include="Companies_Schema.sql" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
   </ItemGroup>
@@ -231,6 +242,42 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthHelper.cs" />
+    <Compile Include="EmailHelper.cs" />
+    <Compile Include="Companies\Companies.aspx.cs">
+      <DependentUpon>Companies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies\Companies.aspx.designer.cs">
+      <DependentUpon>Companies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Companies\CompanyDetails.aspx.cs">
+      <DependentUpon>CompanyDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies\CompanyDetails.aspx.designer.cs">
+      <DependentUpon>CompanyDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Companies\CreateInvoice.aspx.cs">
+      <DependentUpon>CreateInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies\CreateInvoice.aspx.designer.cs">
+      <DependentUpon>CreateInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Companies\InvoiceView.aspx.cs">
+      <DependentUpon>InvoiceView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies\InvoiceView.aspx.designer.cs">
+      <DependentUpon>InvoiceView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Companies\PublicInvoice.aspx.cs">
+      <DependentUpon>PublicInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Companies\PublicInvoice.aspx.designer.cs">
+      <DependentUpon>PublicInvoice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -355,6 +402,7 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+    <Content Include="WeatherData\ESP-32.ino" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

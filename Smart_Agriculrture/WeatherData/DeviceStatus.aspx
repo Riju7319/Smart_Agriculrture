@@ -81,7 +81,7 @@
 </form>
 
 <script>
-    const API_URL = "https://api.thingspeak.com/channels/3137414/feeds.json?api_key=O24VY64WB8H3Y2XT&results=8000";
+    const API_URL = "https://api.thingspeak.com/channels/3229994/feeds.json?api_key=W7LGD7SPBJ7YOB5O&results=8000";
     let uptimeData = [];
 
     // Chart setup

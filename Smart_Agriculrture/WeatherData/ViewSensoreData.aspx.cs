@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,5 +13,11 @@ namespace Smart_Agriculrture.WeatherData
 		{
             AuthHelper.CheckLogin();
         }
-	}
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Login.aspx");
+        }
+    }
 }
