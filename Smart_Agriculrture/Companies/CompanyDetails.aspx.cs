@@ -626,9 +626,9 @@ namespace Smart_Agriculrture.Companies
                             txtBankAccNumber.Text = r["AccountNumber"].ToString();
                             txtBankIFSC.Text = r["IFSCCode"]?.ToString() ?? "";
                             txtBankUPI.Text = r["UPIID"]?.ToString() ?? "";
-                            txtBankName.Text = r["BankName"]?.ToString() ?? "";
+                            txtBankNameInput.Text = r["BankName"]?.ToString() ?? "";
                             txtBankPAN.Text = r["PANNumber"]?.ToString() ?? "";
-                            chkBankDefault.Checked = Convert.ToBoolean(r["IsDefault"]);
+                            chkDefaultBank.Checked = Convert.ToBoolean(r["IsDefault"]);
                         }
                     }
                 }
@@ -648,7 +648,7 @@ namespace Smart_Agriculrture.Companies
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
-                if (chkBankDefault.Checked)
+                if (chkDefaultBank.Checked)
                 {
                     string clearQ = "UPDATE BankAccounts SET IsDefault = 0 WHERE CompanyID = @cid";
                     using (SqlCommand cCmd = new SqlCommand(clearQ, conn))
@@ -669,9 +669,9 @@ namespace Smart_Agriculrture.Companies
                         cmd.Parameters.AddWithValue("@num", txtBankAccNumber.Text.Trim());
                         cmd.Parameters.AddWithValue("@ifsc", txtBankIFSC.Text.Trim());
                         cmd.Parameters.AddWithValue("@upi", txtBankUPI.Text.Trim());
-                        cmd.Parameters.AddWithValue("@bank", txtBankName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@bank", txtBankNameInput.Text.Trim());
                         cmd.Parameters.AddWithValue("@pan", string.IsNullOrEmpty(txtBankPAN.Text.Trim()) ? (object)DBNull.Value : txtBankPAN.Text.Trim());
-                        cmd.Parameters.AddWithValue("@def", chkBankDefault.Checked);
+                        cmd.Parameters.AddWithValue("@def", chkDefaultBank.Checked);
                         cmd.ExecuteNonQuery();
                     }
                     ShowMessage("✅ Bank Account Added!", true);
@@ -686,9 +686,9 @@ namespace Smart_Agriculrture.Companies
                         cmd.Parameters.AddWithValue("@num", txtBankAccNumber.Text.Trim());
                         cmd.Parameters.AddWithValue("@ifsc", txtBankIFSC.Text.Trim());
                         cmd.Parameters.AddWithValue("@upi", txtBankUPI.Text.Trim());
-                        cmd.Parameters.AddWithValue("@bank", txtBankName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@bank", txtBankNameInput.Text.Trim());
                         cmd.Parameters.AddWithValue("@pan", string.IsNullOrEmpty(txtBankPAN.Text.Trim()) ? (object)DBNull.Value : txtBankPAN.Text.Trim());
-                        cmd.Parameters.AddWithValue("@def", chkBankDefault.Checked);
+                        cmd.Parameters.AddWithValue("@def", chkDefaultBank.Checked);
                         cmd.ExecuteNonQuery();
                     }
                     ShowMessage("✅ Bank Account Updated!", true);
@@ -700,9 +700,9 @@ namespace Smart_Agriculrture.Companies
             txtBankAccNumber.Text = "";
             txtBankIFSC.Text = "";
             txtBankUPI.Text = "";
-            txtBankName.Text = "";
+            txtBankNameInput.Text = "";
             txtBankPAN.Text = "";
-            chkBankDefault.Checked = false;
+            chkDefaultBank.Checked = false;
             hfActiveTab.Value = "details";
             LoadBankAccounts();
         }

@@ -34,7 +34,7 @@ namespace Smart_Agriculrture.Companies
 
                 // Load invoice + company + customer
                 string qInv = @"SELECT i.*, 
-                                       c.CompanyName, c.ContactPerson, c.Email AS CompanyEmail, c.Phone AS CompanyPhone, c.Address AS CompanyAddress, c.TaxID_GSTIN,
+                                       c.CompanyName, c.ContactPerson, c.Email AS CompanyEmail, c.Phone AS CompanyPhone, c.Address AS CompanyAddress, c.TaxID_GSTIN, c.PANNumber,
                                        cu.CustomerName, cu.Email AS CustomerEmail, cu.Phone AS CustomerPhone, cu.Address AS CustomerAddress, cu.GSTIN AS CustomerGSTIN
                                 FROM Invoices i
                                 INNER JOIN Companies c ON i.CompanyID = c.CompanyID
