@@ -27,13 +27,25 @@ namespace Smart_Agriculrture.Companies
                 lnkBack.HRef = "CompanyDetails.aspx?CompanyID=" + hfCompanyID.Value;
                 LoadCustomers();
                 LoadBankAccounts();
-                GenerateInvoiceNumber();
-                txtInvoiceDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                txtDueDate.Text = DateTime.Now.AddDays(30).ToString("yyyy-MM-dd");
                 
-                if (!string.IsNullOrEmpty(Request.QueryString["clone"]))
+                if (!string.IsNullOrEmpty(Request.QueryString["edit"]))
                 {
-                    LoadInvoiceForClone(Request.QueryString["clone"]);
+                    // Edit mode – load everything including invoice number
+                    hfEditInvoiceID.Value = Request.QueryString["edit"];
+                    LoadInvoiceForEdit(Request.QueryString["edit"]);
+                    litPageTitle.Text = "✏️ Edit Invoice";
+                    btnSaveInvoice.Text = "💾 Update Invoice";
+                }
+                else
+                {
+                    GenerateInvoiceNumber();
+                    txtInvoiceDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    txtDueDate.Text = DateTime.Now.AddDays(30).ToString("yyyy-MM-dd");
+                    
+                    if (!string.IsNullOrEmpty(Request.QueryString["clone"]))
+                    {
+                        LoadInvoiceForClone(Request.QueryString["clone"]);
+                    }
                 }
             }
         }
@@ -62,29 +74,65 @@ namespace Smart_Agriculrture.Companies
                     }
                 }
 
-                // Load Invoice Items
-                string qItems = "SELECT * FROM InvoiceItems WHERE InvoiceID = @id";
-                System.Collections.Generic.List<InvoiceItemDTO> itemsList = new System.Collections.Generic.List<InvoiceItemDTO>();
-                using (SqlCommand cmd = new SqlCommand(qItems, conn))
+                LoadInvoiceItems(cloneId, conn);
+            }
+        }
+
+        private void LoadInvoiceForEdit(string editId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                // Load Invoice Details (including invoice number, dates, status)
+                string qInv = "SELECT * FROM Invoices WHERE InvoiceID = @id AND CompanyID = @cid";
+                using (SqlCommand cmd = new SqlCommand(qInv, conn))
                 {
-                    cmd.Parameters.AddWithValue("@id", cloneId);
+                    cmd.Parameters.AddWithValue("@id", editId);
+                    cmd.Parameters.AddWithValue("@cid", hfCompanyID.Value);
+                    conn.Open();
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
-                        while (r.Read())
+                        if (r.Read())
                         {
-                            itemsList.Add(new InvoiceItemDTO {
-                                name = r["ItemName"].ToString(),
-                                desc = r["ItemDescription"]?.ToString() ?? "",
-                                qty = Convert.ToInt32(r["Quantity"]),
-                                price = Convert.ToDecimal(r["UnitPrice"])
-                            });
+                            txtInvoiceNumber.Text = r["InvoiceNumber"].ToString();
+                            txtInvoiceDate.Text = Convert.ToDateTime(r["InvoiceDate"]).ToString("yyyy-MM-dd");
+                            txtDueDate.Text = Convert.ToDateTime(r["DueDate"]).ToString("yyyy-MM-dd");
+                            if (r["CustomerID"] != DBNull.Value) ddlCustomer.SelectedValue = r["CustomerID"].ToString();
+                            if (r["BankAccountID"] != DBNull.Value) ddlBankAccount.SelectedValue = r["BankAccountID"].ToString();
+                            ddlStatus.SelectedValue = r["PaymentStatus"].ToString();
+                            
+                            hfCGST.Value = r["CGSTPercent"].ToString();
+                            hfSGST.Value = r["SGSTPercent"].ToString();
                         }
                     }
                 }
-                
-                var serializer = new JavaScriptSerializer();
-                hfItemsJSON.Value = serializer.Serialize(itemsList);
+
+                LoadInvoiceItems(editId, conn);
             }
+        }
+
+        private void LoadInvoiceItems(string invoiceId, SqlConnection conn)
+        {
+            string qItems = "SELECT * FROM InvoiceItems WHERE InvoiceID = @id";
+            System.Collections.Generic.List<InvoiceItemDTO> itemsList = new System.Collections.Generic.List<InvoiceItemDTO>();
+            using (SqlCommand cmd = new SqlCommand(qItems, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", invoiceId);
+                using (SqlDataReader r = cmd.ExecuteReader())
+                {
+                    while (r.Read())
+                    {
+                        itemsList.Add(new InvoiceItemDTO {
+                            name = r["ItemName"].ToString(),
+                            desc = r["ItemDescription"]?.ToString() ?? "",
+                            qty = Convert.ToInt32(r["Quantity"]),
+                            price = Convert.ToDecimal(r["UnitPrice"])
+                        });
+                    }
+                }
+            }
+            
+            var serializer = new JavaScriptSerializer();
+            hfItemsJSON.Value = serializer.Serialize(itemsList);
         }
 
         private void LoadCustomers()
@@ -178,32 +226,73 @@ namespace Smart_Agriculrture.Companies
             string bankAccId = ddlBankAccount.SelectedValue;
 
             int invoiceId;
+            bool isEdit = !string.IsNullOrEmpty(hfEditInvoiceID.Value);
 
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
 
-                // Insert invoice
-                string qInv = @"INSERT INTO Invoices (CompanyID, CustomerID, InvoiceNumber, InvoiceDate, DueDate, SubTotal, CGSTPercent, SGSTPercent, CGSTAmount, SGSTAmount, TaxAmount, TotalAmount, BankAccountID, PaymentStatus)
-                                VALUES (@cid, @custid, @num, @date, @due, @sub, @cgstPct, @sgstPct, @cgstAmt, @sgstAmt, @tax, @total, @bankId, @status);
-                                SELECT SCOPE_IDENTITY();";
-                using (SqlCommand cmd = new SqlCommand(qInv, conn))
+                if (isEdit)
                 {
-                    cmd.Parameters.AddWithValue("@cid", hfCompanyID.Value);
-                    cmd.Parameters.AddWithValue("@custid", ddlCustomer.SelectedValue);
-                    cmd.Parameters.AddWithValue("@num", txtInvoiceNumber.Text.Trim());
-                    cmd.Parameters.AddWithValue("@date", txtInvoiceDate.Text);
-                    cmd.Parameters.AddWithValue("@due", txtDueDate.Text);
-                    cmd.Parameters.AddWithValue("@sub", subtotal);
-                    cmd.Parameters.AddWithValue("@cgstPct", cgstPct);
-                    cmd.Parameters.AddWithValue("@sgstPct", sgstPct);
-                    cmd.Parameters.AddWithValue("@cgstAmt", cgstAmount);
-                    cmd.Parameters.AddWithValue("@sgstAmt", sgstAmount);
-                    cmd.Parameters.AddWithValue("@tax", taxAmount);
-                    cmd.Parameters.AddWithValue("@total", totalAmount);
-                    cmd.Parameters.AddWithValue("@bankId", string.IsNullOrEmpty(bankAccId) ? (object)DBNull.Value : (object)int.Parse(bankAccId));
-                    cmd.Parameters.AddWithValue("@status", ddlStatus.SelectedValue);
-                    invoiceId = Convert.ToInt32(cmd.ExecuteScalar());
+                    invoiceId = int.Parse(hfEditInvoiceID.Value);
+
+                    // Update existing invoice
+                    string qUpd = @"UPDATE Invoices SET CustomerID=@custid, InvoiceNumber=@num, InvoiceDate=@date, DueDate=@due,
+                                    SubTotal=@sub, CGSTPercent=@cgstPct, SGSTPercent=@sgstPct, CGSTAmount=@cgstAmt, SGSTAmount=@sgstAmt,
+                                    TaxAmount=@tax, TotalAmount=@total, BankAccountID=@bankId, PaymentStatus=@status
+                                    WHERE InvoiceID=@iid AND CompanyID=@cid";
+                    using (SqlCommand cmd = new SqlCommand(qUpd, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@iid", invoiceId);
+                        cmd.Parameters.AddWithValue("@cid", hfCompanyID.Value);
+                        cmd.Parameters.AddWithValue("@custid", ddlCustomer.SelectedValue);
+                        cmd.Parameters.AddWithValue("@num", txtInvoiceNumber.Text.Trim());
+                        cmd.Parameters.AddWithValue("@date", txtInvoiceDate.Text);
+                        cmd.Parameters.AddWithValue("@due", txtDueDate.Text);
+                        cmd.Parameters.AddWithValue("@sub", subtotal);
+                        cmd.Parameters.AddWithValue("@cgstPct", cgstPct);
+                        cmd.Parameters.AddWithValue("@sgstPct", sgstPct);
+                        cmd.Parameters.AddWithValue("@cgstAmt", cgstAmount);
+                        cmd.Parameters.AddWithValue("@sgstAmt", sgstAmount);
+                        cmd.Parameters.AddWithValue("@tax", taxAmount);
+                        cmd.Parameters.AddWithValue("@total", totalAmount);
+                        cmd.Parameters.AddWithValue("@bankId", string.IsNullOrEmpty(bankAccId) ? (object)DBNull.Value : (object)int.Parse(bankAccId));
+                        cmd.Parameters.AddWithValue("@status", ddlStatus.SelectedValue);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Delete old line items and re-insert
+                    string qDelItems = "DELETE FROM InvoiceItems WHERE InvoiceID=@iid";
+                    using (SqlCommand cmd = new SqlCommand(qDelItems, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@iid", invoiceId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    // Insert new invoice
+                    string qInv = @"INSERT INTO Invoices (CompanyID, CustomerID, InvoiceNumber, InvoiceDate, DueDate, SubTotal, CGSTPercent, SGSTPercent, CGSTAmount, SGSTAmount, TaxAmount, TotalAmount, BankAccountID, PaymentStatus)
+                                    VALUES (@cid, @custid, @num, @date, @due, @sub, @cgstPct, @sgstPct, @cgstAmt, @sgstAmt, @tax, @total, @bankId, @status);
+                                    SELECT SCOPE_IDENTITY();";
+                    using (SqlCommand cmd = new SqlCommand(qInv, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@cid", hfCompanyID.Value);
+                        cmd.Parameters.AddWithValue("@custid", ddlCustomer.SelectedValue);
+                        cmd.Parameters.AddWithValue("@num", txtInvoiceNumber.Text.Trim());
+                        cmd.Parameters.AddWithValue("@date", txtInvoiceDate.Text);
+                        cmd.Parameters.AddWithValue("@due", txtDueDate.Text);
+                        cmd.Parameters.AddWithValue("@sub", subtotal);
+                        cmd.Parameters.AddWithValue("@cgstPct", cgstPct);
+                        cmd.Parameters.AddWithValue("@sgstPct", sgstPct);
+                        cmd.Parameters.AddWithValue("@cgstAmt", cgstAmount);
+                        cmd.Parameters.AddWithValue("@sgstAmt", sgstAmount);
+                        cmd.Parameters.AddWithValue("@tax", taxAmount);
+                        cmd.Parameters.AddWithValue("@total", totalAmount);
+                        cmd.Parameters.AddWithValue("@bankId", string.IsNullOrEmpty(bankAccId) ? (object)DBNull.Value : (object)int.Parse(bankAccId));
+                        cmd.Parameters.AddWithValue("@status", ddlStatus.SelectedValue);
+                        invoiceId = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
                 }
 
                 // Insert line items

@@ -234,8 +234,9 @@
                         <asp:TemplateField HeaderText="Actions">
                             <ItemTemplate>
                                 <a href='<%# "InvoiceView.aspx?InvoiceID=" + Eval("InvoiceID") %>' class="btn-sm-action">👁 View</a>
+                                <a href='<%# "CreateInvoice.aspx?CompanyID=" + Request.QueryString["CompanyID"] + "&edit=" + Eval("InvoiceID") %>' class="btn-sm-action">✏️ Edit</a>
                                 <asp:LinkButton ID="btnMarkPaid" runat="server" CommandName="MarkPaid" CommandArgument='<%# Eval("InvoiceID") %>' CssClass="btn-sm-action btn-paid" CausesValidation="false">✓ Paid</asp:LinkButton>
-                                <a href='<%# "CreateInvoice.aspx?clone=" + Eval("InvoiceID") %>' class="btn-sm-action">📋 Clone</a>
+                                <a href='<%# "CreateInvoice.aspx?CompanyID=" + Request.QueryString["CompanyID"] + "&clone=" + Eval("InvoiceID") %>' class="btn-sm-action">📋 Clone</a>
                                 <asp:LinkButton ID="btnDeleteInv" runat="server" CommandName="DeleteInv" CommandArgument='<%# Eval("InvoiceID") %>' CssClass="btn-sm-action" ForeColor="Red" OnClientClick="return confirm('Delete this invoice?');" CausesValidation="false">🗑 Delete</asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>

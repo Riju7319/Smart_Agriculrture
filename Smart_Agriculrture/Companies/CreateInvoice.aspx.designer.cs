@@ -4,7 +4,9 @@ namespace Smart_Agriculrture.Companies
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         protected global::System.Web.UI.WebControls.HiddenField hfCompanyID;
+        protected global::System.Web.UI.WebControls.HiddenField hfEditInvoiceID;
         protected global::System.Web.UI.WebControls.HiddenField hfItemsJSON;
+        protected global::System.Web.UI.WebControls.Literal litPageTitle;
         protected global::System.Web.UI.WebControls.HiddenField hfCGST;
         protected global::System.Web.UI.WebControls.HiddenField hfSGST;
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkBack;

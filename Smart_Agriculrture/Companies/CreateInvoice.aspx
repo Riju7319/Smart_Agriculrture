@@ -102,10 +102,11 @@
 <body>
 <form id="form1" runat="server">
     <asp:HiddenField ID="hfCompanyID" runat="server" />
+    <asp:HiddenField ID="hfEditInvoiceID" runat="server" />
     <asp:HiddenField ID="hfItemsJSON" runat="server" Value="[]" />
 
     <div class="page-header">
-        <h1>📄 Create Invoice</h1>
+        <h1><asp:Literal ID="litPageTitle" runat="server" Text="📄 Create Invoice" /></h1>
         <a id="lnkBack" runat="server" class="btn-back">← Back to Company</a>
     </div>
 
