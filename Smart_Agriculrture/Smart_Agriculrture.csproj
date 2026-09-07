@@ -144,6 +144,7 @@
     <Content Include="Question\IV\01QT-2025.html" />
     <Content Include="Question\IV\02-QT-2025.html" />
     <Content Include="Question\IV\03-QT-2025.html" />
+    <Content Include="Sagarika_Professional_Banking_CV.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -173,6 +174,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="SignUp.aspx" />
+    <Content Include="Tools\mscpl.html" />
     <Content Include="UpcommingWeather.aspx" />
     <Content Include="IrrigationSystem.aspx" />
     <Content Include="Projects\Irrigation_System\Project estimate .pdf" />

@@ -1,0 +1,1035 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSCPL Travel Summary Report</title>
+
+    <!-- Excel reader/writer -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <!-- PDF generator -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .wrap {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 28px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 5px 22px rgba(15, 23, 42, .08);
+            padding: 24px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            margin: 0 0 7px;
+            font-size: 27px;
+        }
+
+        .sub {
+            color: #64748b;
+            margin: 0 0 20px;
+        }
+
+        .upload-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type=file] {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #fff;
+            max-width: 100%;
+        }
+
+        button {
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 17px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+
+            button:hover {
+                background: #1d4ed8;
+            }
+
+            button:disabled {
+                opacity: .5;
+                cursor: not-allowed;
+            }
+
+        .status {
+            margin-top: 13px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-top: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 10px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+            font-size: 13px;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        thead th {
+            background: #e8eef7;
+            font-weight: 800;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        th:first-child, td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 3;
+            background: #f8fafc;
+            font-weight: 700;
+        }
+
+        thead th:first-child {
+            z-index: 4;
+        }
+
+        .total-row td {
+            font-weight: 800;
+            background: #eef2f7;
+        }
+
+            .total-row td:first-child {
+                background: #e2e8f0;
+            }
+
+        .absent-minus {
+            color: #dc2626 !important;
+            font-weight: 900;
+        }
+
+        .km-link {
+            color: #2563eb;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .empty {
+            padding: 38px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .download-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .note {
+            margin-top: 10px;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .report-footer {
+            margin-top: 22px;
+            color: #64748b;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .wrap {
+                max-width: none;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                .card:first-child, .download-bar, .note {
+                    display: none !important;
+                }
+
+            .section {
+                margin-top: 12px;
+                break-inside: avoid;
+            }
+
+                .section:first-child {
+                    margin-top: 0;
+                }
+
+            .table-wrap {
+                overflow: visible;
+                border: 0;
+            }
+
+            table {
+                width: 100%;
+                min-width: 0;
+                font-size: 8px;
+            }
+
+            th, td {
+                padding: 4px 5px;
+            }
+
+                th:first-child, td:first-child, thead th {
+                    position: static;
+                }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <div class="card">
+            <h1>MSCPL Travel Summary Report</h1>
+            <p class="sub">Upload the Excel report to generate Attendance, Site Visits and KM Travelled tables.</p>
+
+            <div class="upload-row">
+                <input id="fileInput" type="file" accept=".xlsx,.xls">
+                <button id="downloadBtn" disabled>Download Excel Report</button>
+                <button id="downloadPdfBtn" disabled>Download PDF</button>
+            </div>
+
+            <div id="status" class="status">No file loaded.</div>
+
+            <div class="note">
+                Attendance rule: if Site Visits &gt; 0 and KM &lt; 1, attendance is Present.
+                If KM &gt; 1 and Site Visits = 0, attendance is A- (red).
+                Otherwise the original attendance value is retained.
+            </div>
+        </div>
+
+        <div id="report" class="card hidden">
+            <div id="attendanceSection" class="section"></div>
+            <div id="siteSection" class="section"></div>
+            <div id="kmSection" class="section"></div>
+
+            <div class="report-footer">This report generated by Zapuza Technologies</div>
+
+            <div class="download-bar">
+                <button id="downloadBtnBottom">Download Excel Report</button>
+                <button id="downloadPdfBtnBottom">Download PDF</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+let reportData = null;
+
+const $ = id => document.getElementById(id);
+
+function cleanNumber(value) {
+    if (value === null || value === undefined || value === '') return 0;
+    if (typeof value === 'number') return value;
+    const n = parseFloat(String(value).replace(/,/g, '').replace(/km/ig, '').trim());
+    return Number.isFinite(n) ? n : 0;
+}
+
+function formatDateHeader(value) {
+    if (value instanceof Date && !isNaN(value)) {
+        const d = String(value.getDate()).padStart(2, '0');
+        const m = String(value.getMonth() + 1).padStart(2, '0');
+        const y = value.getFullYear();
+        return `${d}-${m}-${y}`;
+    }
+
+    const s = String(value ?? '').trim();
+
+    // Original report format: DD-MM-YY
+    let match = s.match(/^(\\d{1,2})-(\\d{1,2})-(\\d{2,4})$/);
+    if (match) {
+        const dd = match[1].padStart(2, '0');
+        const mm = match[2].padStart(2, '0');
+        let yy = match[3];
+        if (yy.length === 2) yy = '20' + yy;
+        return `${dd}-${mm}-${yy}`;
+    }
+
+    return s;
+}
+
+function getCellLink(cell) {
+    if (!cell) return '';
+    if (cell.l && cell.l.Target) return cell.l.Target;
+    if (cell.hyperlink && cell.hyperlink.target) return cell.hyperlink.target;
+    return '';
+}
+
+function makeCell(tag, value, className = '', link = '') {
+    const cell = document.createElement(tag);
+
+    if (link) {
+        const a = document.createElement('a');
+        a.href = link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = value;
+        a.className = 'km-link';
+        cell.appendChild(a);
+    } else {
+        cell.textContent = value;
+    }
+
+    if (className) cell.className = className;
+    return cell;
+}
+
+function renderTable(containerId, title, headers, rows, totalLabel, totalValues, type) {
+    const container = $(containerId);
+    container.innerHTML = '';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'section-title';
+    titleEl.textContent = title;
+    container.appendChild(titleEl);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+
+    headers.forEach(h => {
+        trh.appendChild(makeCell('th', h));
+    });
+    thead.appendChild(trh);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    rows.forEach(row => {
+        const tr = document.createElement('tr');
+
+        row.forEach((item, index) => {
+            const isFirst = index === 0;
+            const value = item?.value ?? item ?? '';
+            const link = item?.link ?? '';
+
+            let cls = '';
+            if (type === 'attendance' && value === 'A-') cls = 'absent-minus';
+
+            tr.appendChild(makeCell('td', value, cls, link));
+        });
+
+        tbody.appendChild(tr);
+    });
+
+    const totalTr = document.createElement('tr');
+    totalTr.className = 'total-row';
+
+    totalTr.appendChild(makeCell('td', totalLabel));
+
+    for (let i = 0; i < totalValues.length; i++) {
+        const value = totalValues[i];
+        totalTr.appendChild(makeCell('td', value));
+    }
+
+    tbody.appendChild(totalTr);
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    container.appendChild(wrap);
+}
+
+function buildReport(workbook) {
+    const sheetName = workbook.SheetNames[0];
+    const ws = workbook.Sheets[sheetName];
+
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    const firstDateCol = 2; // C
+    const lastDateCol = 32; // AG, 31 days
+
+    const dates = [];
+    for (let c = firstDateCol; c <= lastDateCol; c++) {
+        const addr = XLSX.utils.encode_cell({ r: 1, c });
+        const cell = ws[addr];
+        const raw = cell ? cell.v : '';
+        dates.push(formatDateHeader(raw));
+    }
+
+    const employees = [];
+
+    // Source format is three rows per employee:
+    // Attendance, Site Visits, KM Travelled.
+    for (let r = 2; r <= range.e.r; r += 3) {
+        const usernameCell = ws[XLSX.utils.encode_cell({ r, c: 0 })];
+        if (!usernameCell || usernameCell.v === undefined || usernameCell.v === null || String(usernameCell.v).trim() === '') {
+            continue;
+        }
+
+        const username = String(usernameCell.v).trim();
+
+        const attendance = [];
+        const visits = [];
+        const km = [];
+        const kmLinks = [];
+
+        for (let c = firstDateCol; c <= lastDateCol; c++) {
+            const aCell = ws[XLSX.utils.encode_cell({ r, c })];
+            const vCell = ws[XLSX.utils.encode_cell({ r: r + 1, c })];
+            const kCell = ws[XLSX.utils.encode_cell({ r: r + 2, c })];
+
+            const originalAttendance = String(aCell?.v ?? '').trim().toUpperCase();
+            const siteVisits = cleanNumber(vCell?.v);
+            const kmValue = cleanNumber(kCell?.v);
+            const link = getCellLink(kCell);
+
+            // Attendance algorithm requested by the user.
+           let finalAttendance = originalAttendance;
+            let algorithmChanged = false;
+
+            if (siteVisits > 0 && kmValue < 1) {
+                finalAttendance = 'P';
+            } else if (siteVisits < 1 && kmValue >= 1) {
+                finalAttendance = 'A-';
+
+                if (originalAttendance !== finalAttendance) {
+                    algorithmChanged = true;
+                }
+            }
+            attendance.push(finalAttendance);
+            visits.push(siteVisits);
+            km.push(kmValue);
+            kmLinks.push(link);
+        }
+
+        employees.push({
+            username,
+            attendance,
+            visits,
+            km,
+            kmLinks
+        });
+    }
+
+    return { dates, employees };
+}
+
+function renderReport(data) {
+    const { dates, employees } = data;
+
+    // TRANSPOSED:
+    // first column = Date
+    // following columns = Employees
+    const headers = ['Date', ...employees.map(e => e.username)];
+
+    const attendanceRows = [];
+    const siteRows = [];
+    const kmRows = [];
+
+    employees.forEach(e => {
+        // Make sure totals are based on final calculated attendance.
+        e.presentTotal = e.attendance.filter(v => v === 'P').length;
+        e.siteTotal = e.visits.reduce((sum, v) => sum + v, 0);
+        e.kmTotal = e.km.reduce((sum, v) => sum + v, 0);
+    });
+
+    dates.forEach((date, i) => {
+        attendanceRows.push([
+            { value: date },
+            ...employees.map(e => ({ value: e.attendance[i] }))
+        ]);
+
+        siteRows.push([
+            { value: date },
+            ...employees.map(e => ({ value: e.visits[i] }))
+        ]);
+
+        kmRows.push([
+            { value: date },
+            ...employees.map(e => ({
+                value: Number(e.km[i].toFixed(2)),
+                link: e.kmLinks[i]
+            }))
+        ]);
+    });
+
+    renderTable(
+        'attendanceSection',
+        '1. Attendance',
+        headers,
+        attendanceRows,
+        'TOTAL PRESENT',
+        employees.map(e => e.presentTotal),
+        'attendance'
+    );
+
+    renderTable(
+        'siteSection',
+        '2. Site Visits',
+        headers,
+        siteRows,
+        'TOTAL SITE VISITS',
+        employees.map(e => e.siteTotal),
+        'visits'
+    );
+
+    renderTable(
+        'kmSection',
+        '3. KM Travelled',
+        headers,
+        kmRows,
+        'TOTAL KM',
+        employees.map(e => Number(e.kmTotal.toFixed(2))),
+        'km'
+    );
+
+    $('report').classList.remove('hidden');
+    $('downloadBtn').disabled = false;
+}
+
+function downloadExcel() {
+    if (!reportData) return;
+
+    const { dates, employees } = reportData;
+    const aoa = [];
+    const hyperlinkCells = [];
+    const attendanceCells = [];
+    const sectionRows = [];
+    const headerRows = [];
+    const totalRows = [];
+
+    const headers = ['Date', ...employees.map(e => e.username)];
+    const totalColumns = headers.length;
+
+    // -----------------------------
+    // ATTENDANCE
+    // -----------------------------
+    const attendanceTitleRow = aoa.length;
+    aoa.push(['ATTENDANCE']);
+    sectionRows.push(attendanceTitleRow);
+
+    const attendanceHeaderRow = aoa.length;
+    aoa.push(headers);
+    headerRows.push(attendanceHeaderRow);
+
+    dates.forEach((date, i) => {
+        const rowIndex = aoa.length;
+        aoa.push([date, ...employees.map(e => e.attendance[i])]);
+
+        employees.forEach((e, empIndex) => {
+            if (e.attendance[i] === 'A-') {
+                attendanceCells.push({
+                    r: rowIndex,
+                    c: empIndex + 1
+                });
+            }
+        });
+    });
+
+    const attendanceTotalRow = aoa.length;
+    aoa.push([
+        'TOTAL PRESENT',
+        ...employees.map(e => e.presentTotal)
+    ]);
+    totalRows.push(attendanceTotalRow);
+
+    // Separator
+    aoa.push([]);
+
+    // -----------------------------
+    // SITE VISITS
+    // -----------------------------
+    const siteTitleRow = aoa.length;
+    aoa.push(['SITE VISITS']);
+    sectionRows.push(siteTitleRow);
+
+    const siteHeaderRow = aoa.length;
+    aoa.push(headers);
+    headerRows.push(siteHeaderRow);
+
+    dates.forEach((date, i) => {
+        aoa.push([date, ...employees.map(e => e.visits[i])]);
+    });
+
+    const siteTotalRow = aoa.length;
+    aoa.push([
+        'TOTAL SITE VISITS',
+        ...employees.map(e => e.siteTotal)
+    ]);
+    totalRows.push(siteTotalRow);
+
+    // Separator
+    aoa.push([]);
+
+    // -----------------------------
+    // KM TRAVELLED
+    // -----------------------------
+    const kmTitleRow = aoa.length;
+    aoa.push(['KM TRAVELLED']);
+    sectionRows.push(kmTitleRow);
+
+    const kmHeaderRow = aoa.length;
+    aoa.push(headers);
+    headerRows.push(kmHeaderRow);
+
+    dates.forEach((date, i) => {
+        const rowIndex = aoa.length;
+        const row = [date];
+
+        employees.forEach((e, empIndex) => {
+            const value = Number(e.km[i].toFixed(2));
+            row.push(value);
+
+            if (e.kmLinks[i]) {
+                hyperlinkCells.push({
+                    r: rowIndex,
+                    c: empIndex + 1,
+                    target: e.kmLinks[i]
+                });
+            }
+        });
+
+        aoa.push(row);
+    });
+
+    const kmTotalRow = aoa.length;
+    aoa.push([
+        'TOTAL KM',
+        ...employees.map(e => Number(e.kmTotal.toFixed(2)))
+    ]);
+    totalRows.push(kmTotalRow);
+
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+
+    // Merge each section title across the complete table width.
+    ws['!merges'] = sectionRows.map(r => ({
+        s: { r, c: 0 },
+        e: { r, c: totalColumns - 1 }
+    }));
+
+    // Professional workbook palette.
+    const styles = {
+        section: {
+            font: { name: 'Calibri', sz: 14, bold: true, color: '1F2937' },
+            fill: { patternType: 'solid', fgColor: { rgb: 'DCEEFF' } },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'thin', color: { rgb: 'A9CBEA' } },
+                bottom: { style: 'thin', color: { rgb: 'A9CBEA' } },
+                left: { style: 'thin', color: { rgb: 'A9CBEA' } },
+                right: { style: 'thin', color: { rgb: 'A9CBEA' } }
+            }
+        },
+        header: {
+            font: { name: 'Calibri', sz: 11, bold: true, color: '1F2937' },
+            fill: { patternType: 'solid', fgColor: { rgb: 'EAF4FF' } },
+            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+            border: {
+                top: { style: 'thin', color: { rgb: 'B4C7E7' } },
+                bottom: { style: 'thin', color: { rgb: 'B4C7E7' } },
+                left: { style: 'thin', color: { rgb: 'B4C7E7' } },
+                right: { style: 'thin', color: { rgb: 'B4C7E7' } }
+            }
+        },
+        body: {
+            font: { name: 'Calibri', sz: 10, color: '1F2937' },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                bottom: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                left: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                right: { style: 'thin', color: { rgb: 'D9E2F3' } }
+            }
+        },
+        firstColumn: {
+            font: { name: 'Calibri', sz: 10, bold: true, color: '1F2937' },
+            fill: { patternType: 'solid', fgColor: { rgb: 'F2F6FA' } },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                bottom: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                left: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                right: { style: 'thin', color: { rgb: 'D9E2F3' } }
+            }
+        },
+        total: {
+            font: { name: 'Calibri', sz: 10, bold: true, color: '1F2937' },
+            fill: { patternType: 'solid', fgColor: { rgb: 'EAF6EE' } },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'medium', color: { rgb: '5B9BD5' } },
+                bottom: { style: 'medium', color: { rgb: '5B9BD5' } },
+                left: { style: 'thin', color: { rgb: 'B4C7E7' } },
+                right: { style: 'thin', color: { rgb: 'B4C7E7' } }
+            }
+        },
+        absent: {
+            font: { name: 'Calibri', sz: 10, bold: true, color: 'C0392B' },
+            fill: { patternType: 'solid', fgColor: { rgb: 'FDECEC' } },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'thin', color: { rgb: 'F4B084' } },
+                bottom: { style: 'thin', color: { rgb: 'F4B084' } },
+                left: { style: 'thin', color: { rgb: 'F4B084' } },
+                right: { style: 'thin', color: { rgb: 'F4B084' } }
+            }
+        },
+        km: {
+            font: { name: 'Calibri', sz: 10, color: '0563C1', underline: true },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+                top: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                bottom: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                left: { style: 'thin', color: { rgb: 'D9E2F3' } },
+                right: { style: 'thin', color: { rgb: 'D9E2F3' } }
+            },
+            numFmt: '0.00'
+        }
+    };
+
+    // Apply base formatting to all populated cells.
+    for (let r = 0; r < aoa.length; r++) {
+        for (let c = 0; c < totalColumns; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            const cell = ws[addr];
+            if (!cell) continue;
+
+            cell.s = { ...styles.body };
+
+            if (c === 0) {
+                cell.s = { ...styles.firstColumn };
+            }
+        }
+    }
+
+    // Section title rows.
+    sectionRows.forEach(r => {
+        const addr = XLSX.utils.encode_cell({ r, c: 0 });
+        if (ws[addr]) ws[addr].s = { ...styles.section };
+    });
+
+    // Header rows.
+    headerRows.forEach(r => {
+        for (let c = 0; c < totalColumns; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            if (ws[addr]) ws[addr].s = { ...styles.header };
+        }
+    });
+
+    // Total rows.
+    totalRows.forEach(r => {
+        for (let c = 0; c < totalColumns; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            if (ws[addr]) ws[addr].s = { ...styles.total };
+        }
+    });
+
+    // Red A- cells.
+    attendanceCells.forEach(item => {
+        const addr = XLSX.utils.encode_cell({ r: item.r, c: item.c });
+        if (ws[addr]) ws[addr].s = { ...styles.absent };
+    });
+
+    // Preserve KM hyperlinks and make them visually obvious.
+    hyperlinkCells.forEach(item => {
+        const addr = XLSX.utils.encode_cell({ r: item.r, c: item.c });
+        if (ws[addr]) {
+            ws[addr].l = {
+                Target: item.target,
+                Tooltip: 'Open Google Maps route'
+            };
+            ws[addr].s = { ...styles.km };
+        }
+    });
+
+    // Number formatting for site visits and totals.
+    // Find KM title/header to identify the KM data region.
+    for (let r = kmHeaderRow + 1; r <= kmTotalRow; r++) {
+        for (let c = 1; c < totalColumns; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            if (ws[addr] && typeof ws[addr].v === 'number') {
+                ws[addr].s = {
+                    ...(ws[addr].s || styles.body),
+                    numFmt: '0.00'
+                };
+            }
+        }
+    }
+
+    // Make attendance totals integer.
+    for (let c = 1; c < totalColumns; c++) {
+        const addr = XLSX.utils.encode_cell({ r: attendanceTotalRow, c });
+        if (ws[addr]) ws[addr].s = { ...styles.total, numFmt: '0' };
+    }
+
+    // Site visit totals/data are integers where applicable.
+    for (let r = siteHeaderRow + 1; r <= siteTotalRow; r++) {
+        for (let c = 1; c < totalColumns; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            if (ws[addr] && typeof ws[addr].v === 'number') {
+                ws[addr].s = {
+                    ...(ws[addr].s || styles.body),
+                    numFmt: '0'
+                };
+            }
+        }
+    }
+
+    // Column widths: compact date column, employee columns sized for names.
+    ws['!cols'] = [
+        { wch: 20 },
+        ...employees.map(e => ({
+            wch: Math.max(14, Math.min(24, String(e.username).length + 4))
+        }))
+    ];
+
+    // Row heights for a clean, share-ready layout.
+    ws['!rows'] = [];
+    sectionRows.forEach(r => { ws['!rows'][r] = { hpt: 24 }; });
+    headerRows.forEach(r => { ws['!rows'][r] = { hpt: 22 }; });
+    totalRows.forEach(r => { ws['!rows'][r] = { hpt: 21 }; });
+
+    // Freeze the first column so Date remains visible while scrolling.
+    ws['!freeze'] = { xSplit: 1, ySplit: 0 };
+
+    // Print/page setup for sharing or PDF printing.
+    ws['!pageSetup'] = {
+        orientation: 'landscape',
+        paperSize: 9,
+        fitToWidth: 1,
+        fitToHeight: 0
+    };
+    ws['!pageMargins'] = {
+        left: 0.25,
+        right: 0.25,
+        top: 0.5,
+        bottom: 0.5,
+        header: 0.2,
+        footer: 0.2
+    };
+    ws['!printOptions'] = {
+        horizontalCentered: true,
+        verticalCentered: false
+    };
+    ws['!autofilter'] = undefined;
+
+    // Workbook properties.
+    const wb = XLSX.utils.book_new();
+    wb.Props = {
+        Title: 'MSCPL Travel Summary Report',
+        Subject: 'Attendance, Site Visits and KM Travelled',
+        Author: 'MSCPL',
+        Company: 'MSCPL'
+    };
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Report');
+
+    XLSX.writeFile(wb, 'MSCPL_Travel_Summary_Report.xlsx', {
+        bookType: 'xlsx',
+        cellStyles: true
+    });
+}
+
+function downloadPdf() {
+    if (!reportData) return;
+    if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
+        alert('PDF library could not be loaded. Please reload this page while connected to the internet.');
+        return;
+    }
+
+    const { dates, employees } = reportData;
+    const doc = new window.jspdf.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const headers = ['Date', ...employees.map(e => e.username)];
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const lightBlue = [234, 244, 255];
+    const darkText = [31, 41, 55];
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const firstDate = String(dates[0] || '').match(/(\d{1,2})-(\d{1,2})-(\d{2,4})/);
+    const reportMonth = firstDate ? Number(firstDate[2]) : 0;
+    const reportYear = firstDate
+        ? (firstDate[3].length === 2 ? `20${firstDate[3]}` : firstDate[3])
+        : '';
+    const reportTitle = firstDate
+        ? `MSCPL Travel Summary Report ${monthNames[reportMonth - 1]}-${reportYear}`
+        : 'MSCPL Travel Summary Report';
+
+    function addSection(title, rows, totalLabel, totals, formatter = value => value, links = null) {
+        if (doc.lastAutoTable) doc.addPage();
+        doc.setFontSize(11);
+        doc.setTextColor(...darkText);
+        doc.text(reportTitle, pageWidth / 2, 8, { align: 'center' });
+        doc.setFontSize(9);
+        doc.text(title, pageWidth / 2, 14, { align: 'center' });
+        doc.autoTable({
+            startY: 17,
+            head: [headers],
+            body: rows.map((row, rowIndex) => [
+                row[0],
+                ...row.slice(1).map(formatter)
+            ]),
+            foot: [[totalLabel, ...totals]],
+            theme: 'grid',
+            margin: { left: 7, right: 7 },
+            styles: { fontSize: 6, cellPadding: 1.2, textColor: darkText, halign: 'center', overflow: 'hidden' },
+            headStyles: { fillColor: lightBlue, textColor: darkText, fontStyle: 'bold', fontSize: 6 },
+            footStyles: { fillColor: [234, 246, 238], textColor: darkText, fontStyle: 'bold', fontSize: 6 },
+            columnStyles: { 0: { cellWidth: 23, fontStyle: 'bold' } },
+            didParseCell: data => {
+                if (links && data.section === 'body' && data.column.index > 0) {
+                    const target = links[data.row.index]?.[data.column.index - 1];
+                    if (target) data.cell.styles.textColor = [5, 99, 193];
+                }
+            },
+            didDrawCell: data => {
+                if (links && data.section === 'body' && data.column.index > 0) {
+                    const target = links[data.row.index]?.[data.column.index - 1];
+                    if (target) {
+                        doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url: target });
+                    }
+                }
+            }
+        });
+    }
+
+    const attendanceRows = dates.map((date, i) => [date, ...employees.map(e => e.attendance[i])]);
+    const siteRows = dates.map((date, i) => [date, ...employees.map(e => e.visits[i])]);
+    const kmRows = dates.map((date, i) => [date, ...employees.map(e => Number(e.km[i].toFixed(2)))]);
+    const kmLinks = dates.map((date, i) => employees.map(e => e.kmLinks[i]));
+
+    addSection(
+        'Total Travel (KM)',
+        kmRows,
+        'TOTAL KM',
+        employees.map(e => Number(e.kmTotal.toFixed(2))),
+        value => typeof value === 'number' ? value.toFixed(2) : value,
+        kmLinks
+    );
+    addSection(
+        'Attendance',
+        attendanceRows,
+        'TOTAL PRESENT',
+        employees.map(e => e.presentTotal)
+    );
+    addSection(
+        'Site Visits',
+        siteRows,
+        'TOTAL SITE VISITS',
+        employees.map(e => e.siteTotal)
+    );
+
+    const pageHeight = doc.internal.pageSize.getHeight();
+    for (let page = 1; page <= doc.getNumberOfPages(); page++) {
+        doc.setPage(page);
+        doc.setFontSize(7);
+        doc.setTextColor(100, 116, 139);
+        doc.text('This report generated by Zapuza Technologies', pageWidth / 2, pageHeight - 5, { align: 'center' });
+    }
+
+    doc.save('MSCPL_Travel_Summary_Report.pdf');
+}
+
+$('fileInput').addEventListener('change', async event => {
+    if (typeof XLSX === 'undefined') {
+        $('status').textContent = 'Excel library could not be loaded. Please reload this page while connected to the internet.';
+        alert('Excel library could not be loaded. Please reload the HTML tool while connected to the internet.');
+        return;
+    }
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+        $('status').textContent = 'Reading Excel report...';
+
+        const buffer = await file.arrayBuffer();
+        const workbook = XLSX.read(buffer, {
+            type: 'array',
+            cellStyles: true,
+            cellNF: true,
+            cellHTML: true,
+            cellFormula: false,
+            cellDates: true
+        });
+
+        reportData = buildReport(workbook);
+        renderReport(reportData);
+
+        $('downloadPdfBtn').disabled = false;
+        $('status').textContent =
+            `Loaded ${reportData.employees.length} employees and ${reportData.dates.length} dates.`;
+    } catch (error) {
+        console.error(error);
+        reportData = null;
+        $('report').classList.add('hidden');
+        $('downloadBtn').disabled = true;
+        $('downloadPdfBtn').disabled = true;
+        $('status').textContent = 'Unable to read the Excel file. Please select a valid .xlsx/.xls report.';
+        alert('Could not read the Excel file. Please check the file format.');
+    }
+});
+
+$('downloadBtn').addEventListener('click', downloadExcel);
+$('downloadBtnBottom').addEventListener('click', downloadExcel);
+$('downloadPdfBtn').addEventListener('click', downloadPdf);
+$('downloadPdfBtnBottom').addEventListener('click', downloadPdf);
+    </script>
+</body>
+</html>

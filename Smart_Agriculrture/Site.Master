@@ -80,6 +80,7 @@
                             </a>
                             <ul class="dropdown-menu shadow border-0" aria-labelledby="productsDropdown">
                                 <li><a class="dropdown-item py-2" runat="server" href="~/IrrigationSystem"><i class="bi bi-water me-2 text-primary"></i> Irrigation System</a></li>
+                                <li><a class="dropdown-item py-2" runat="server" href="~/tools/mscpl.html"><i class="bi bi-water me-2 text-primary"></i> MSCPL Tool</a></li>
                                 <!-- Add more products here if needed -->
                             </ul>
                         </li>
