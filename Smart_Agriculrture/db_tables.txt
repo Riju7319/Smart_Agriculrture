@@ -12,3 +12,38 @@
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT GETDATE()
 );
+
+
+
+CREATE TABLE SensorLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    
+    -- Core sensor readings
+    Temperature FLOAT NULL,
+    Humidity FLOAT NULL,
+    MQ2 INT NULL,
+    Soil INT NULL,
+    LDR INT NULL,
+    
+    -- Extra weather parameters (optional, can leave empty if not available)
+    AirPressure FLOAT NULL,
+    WindSpeed FLOAT NULL,
+    WindDirection VARCHAR(50) NULL,
+    Rainfall FLOAT NULL,
+    UVIndex FLOAT NULL,
+    
+    -- Location details
+    Latitude DECIMAL(9,6) NULL,
+    Longitude DECIMAL(9,6) NULL,
+    City NVARCHAR(100) NULL,
+    Location NVARCHAR(200) NULL,
+    
+    -- Metadata
+    Timestamp DATETIME NULL
+);
+
+CREATE TABLE Devices (
+    DeviceID INT IDENTITY(1,1) PRIMARY KEY,
+    DeviceName NVARCHAR(100) NOT NULL,
+    LastHeartbeat DATETIME NOT NULL DEFAULT GETDATE()
+);

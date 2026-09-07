@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Structure Online Exam</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 30px;
+            background: #f4f6f8;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #d60000;
+            margin: 20px 0;
+        }
+
+        .section {
+            margin-top: 25px;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+        }
+
+        .question {
+            margin-bottom: 10px;
+        }
+
+        .marks {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .time-over {
+            text-align: center;
+            font-size: 30px;
+            color: red;
+            font-weight: bold;
+            margin-top: 120px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ডেটা স্ট্রাকচার</h1>
+    <h2>পূর্ণমান: 25 | সময়: 1 ঘন্টা</h2>
+
+    <div class="timer" id="timer">Time Left: 60:00</div>
+
+    <div id="paper"></div>
+
+    <script>
+    /************ GLOBAL FLAG ************/
+    let examActive = true;
+
+    /************ SHUFFLE ************/
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    /************ QUESTIONS ************/
+    const sectionA = shuffle([
+        "ডেটা কাকে বলে?",
+        "ডেটা স্ট্রাকচার কাকে বলে?",
+        "ইন্টিজার ডেটা কাকে বলে?",
+        "লিনিয়ার ডেটা স্ট্রাকচার কাকে বলে?",
+        "স্ট্যাক ডেটা স্ট্রাকচার কাকে বলে?",
+        "কিউ ডেটা স্ট্রাকচার কাকে বলে?",
+        "নন-লিনিয়ার ডেটা স্ট্রাকচার কাকে বলে?"
+    ]);
+
+    const sectionB = shuffle([
+        "উদাহরণসহ ডেটা কাকে বলে লেখো।",
+        "একটি আদর্শ ডেটা স্ট্রাকচারের দুটি কাজ লেখো।",
+        "লিনিয়ার ডেটা স্ট্রাকচারের দুটি বৈশিষ্ট্য লেখো।",
+        "স্ট্যাককে LIFO বলা হয় কেন?",
+        "কিউকে FIFO বলা হয় কেন?",
+        "লিঙ্কড-লিস্ট ও নোড কাকে বলে?",
+        "ট্রি ডেটা স্ট্রাকচার কাকে বলে?",
+        "গ্রাফে নোড ও এজ কাকে বলে?"
+    ]);
+
+    const sectionC = shuffle([
+        "ডেটা স্ট্রাকচার কাকে বলে? একটি আদর্শ ডেটা স্ট্রাকচারের কাজ লেখো।",
+        "অ্যারে কাকে বলে? অ্যারের ডিক্লেয়ারেশন ও দৈর্ঘ্য নির্ণয় লেখো।",
+        "স্ট্যাক ডেটা স্ট্রাকচার কাকে বলে? LIFO চিত্রসহ ব্যাখ্যা করো।",
+        "নন-লিনিয়ার ডেটা স্ট্রাকচার কাকে বলে? লিনিয়ার ও নন-লিনিয়ারের পার্থক্য লেখো।"
+    ]);
+
+    /************ RENDER ************/
+    function renderSection(title, questions, marks) {
+        let html = `<div class="section">
+                        <h3>${title} <span class="marks">(${marks})</span></h3>`;
+        questions.forEach((q, i) => {
+            html += `<div class="question">${String(i + 1)}. ${q}</div>`;
+        });
+        html += "</div>";
+        return html;
+    }
+
+    document.getElementById("paper").innerHTML =
+        renderSection("Section A: Very Short Answer (Any 5)", sectionA, "5 × 1 = 5") +
+        renderSection("Section B: Short Answer (Any 5)", sectionB, "5 × 2 = 10") +
+        renderSection("Section C: Descriptive (Any 2)", sectionC, "2 × 5 = 10");
+
+    /************ TIMER ************/
+    let totalTime = 60 * 60; // seconds
+
+    const timerInterval = setInterval(() => {
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+
+        document.getElementById("timer").innerHTML =
+            `Time Left: ${String(minutes)}:${seconds < 10 ? "0" : ""}${String(seconds)}`;
+
+        if (totalTime <= 0) {
+            clearInterval(timerInterval);
+
+            examActive = false;
+
+            document.getElementById("paper").innerHTML = "";
+            document.getElementById("timer").innerHTML = "";
+
+            document.body.innerHTML +=
+                `<div class="time-over">⏰ TIME OVER<br>Question Paper Closed</div>`;
+        }
+
+        totalTime--;
+    }, 1000);
+
+    /************ BLOCK REFRESH ************/
+    document.addEventListener("keydown", function (e) {
+        if (examActive) {
+            if (
+                e.key === "F5" ||
+                (e.ctrlKey && e.key.toLowerCase() === "r") ||
+                (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "r")
+            ) {
+                e.preventDefault();
+                alert("Page refresh is disabled during the exam!");
+            }
+        }
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+        if (examActive) {
+            e.preventDefault();
+            e.returnValue = "Exam is running. You cannot refresh or close this page.";
+        }
+    });
+    </script>
+
+</body>
+</html>
+

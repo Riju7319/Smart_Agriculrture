@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -55,7 +55,8 @@ namespace Smart_Agriculrture
                     cmd.ExecuteNonQuery();
                     conn.Close();
 
-                    lblMessage.Text = "Signup successful!";
+                    lblMessage.Text = "✅ Signup successful! You can now login.";
+                    lblMessage.Visible = true;
                     ClearForm();
                 }
             }

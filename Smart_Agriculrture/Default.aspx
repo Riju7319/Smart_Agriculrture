@@ -1,287 +1,269 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Smart_Agriculrture._Default" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
+    CodeBehind="Default.aspx.cs" Inherits="Smart_Agriculrture._Default" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <main class="container py-4 px-3">
-        
-<!-- Weather Summary Bar -->
-<div id="weather-summary-bar" class="bg-light p-3 rounded shadow mb-4 text-center d-flex justify-content-center align-items-center gap-3 flex-wrap" style="font-size: 1.1rem;">
-  <span>📍 <strong id="weather-location">Fetching location...</strong></span>
-  <span>🌡️ <strong id="weather-temp">--°C</strong></span>
-  <span>📝 <strong id="weather-comment">Loading suggestion...</strong></span>
-</div>
+    <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+        <!-- Weather Summary Bar (Preserved) -->
+        <div id="weather-summary-bar"
+            class="d-flex justify-content-center align-items-center gap-4 bg-primary bg-opacity-10 py-3 mb-5 border-bottom border-primary border-opacity-25"
+            style="font-size: 1.1rem;">
+            <span class="badge bg-primary rounded-pill px-3 py-2"><i class="bi bi-geo-alt-fill me-1"></i> <strong
+                    id="weather-location">Locating...</strong></span>
+            <span class="text-dark"><i class="bi bi-thermometer-half text-danger"></i> <strong
+                    id="weather-temp">--°C</strong></span>
+            <span class="text-dark fst-italic"><i class="bi bi-info-circle text-primary"></i> <strong
+                    id="weather-comment">Loading suggestions...</strong></span>
+        </div>
 
+        <main class="container">
 
-
-
-
-<!-- Intro Section -->
-<section class="bg-white p-4 rounded shadow mb-4 text-center">
-  <h1 class="h3 h-md-1 fw-bold text-success mb-3">🌿 Smart Agriculture IoT Platform</h1>
-
-  <p class="lead text-muted">
-    We build smart solutions to transform traditional farming into data-driven, automated agriculture using affordable IoT technology.
-  </p>
-
-  <p class="text-muted">
-    From monitoring soil and air conditions to automating irrigation and alerts — our IoT-based systems help farmers and gardeners increase crop yields, reduce water waste, and save time.
-  </p>
-
-  <p class="fw-bold text-primary mt-3">
-    🌱 Whether you're managing a home garden, greenhouse, or small farm — we provide scalable smart agriculture tools to help you farm smarter.
-  </p>
-</section>
-
-
-
-<!-- Project Overview -->
-<section class="bg-light p-4 rounded shadow mb-4">
-  <h3 class="mb-3 text-primary">📌 Our Mission: Smarter, Greener Farming</h3>
-
-  <p>
-    Welcome to the world of <strong>Smart Agriculture</strong> — where we combine cutting-edge technology with everyday farming to help both small and large growers become more efficient, eco-friendly, and informed. Our platform offers a variety of IoT-powered solutions that help monitor, automate, and enhance agricultural practices.
-  </p>
-
-  <h5 class="text-secondary mt-4">🌿 What We Offer</h5>
-  <ul>
-    <li>🌡️ <strong>Temperature-Based Alerts:</strong> Real-time monitoring that warns users when the climate becomes too hot, helping prevent crop heat damage.</li>
-    <li>💧 <strong>Soil Moisture-Based Irrigation:</strong> Automatically activates a water pump when soil is too dry — reducing water waste and saving crops.</li>
-    <li>🌫️ <strong>Air Quality Detection:</strong> Identifies harmful gases or bad smells, especially useful in greenhouses or enclosed areas.</li>
-    <li>📶 <strong>Live Data & Mobile Access:</strong> Access real-time sensor data and alerts from your mobile or desktop device.</li>
-    <li>🖥️ <strong>Custom Agriculture Tools:</strong> Our system is expanding to include pest detection tools, crop health analysis (coming soon), and weather forecasting integrations.</li>
-  </ul>
-
-  <h5 class="text-secondary mt-4">🔍 How the Core System Works</h5>
-  <ul class="list-group list-group-flush mb-3">
-    <li class="list-group-item">
-      🧠 <strong>Arduino Uno Controller:</strong> Central controller for collecting sensor data, making decisions, and executing actions without constant user input.
-    </li>
-    <li class="list-group-item">
-      🔔 <strong>Real-Time Decision Engine:</strong> Based on sensor inputs, the system decides whether to send alerts or activate devices like pumps or alarms.
-    </li>
-    <li class="list-group-item">
-      🌐 <strong>IoT Integration:</strong> Enables you to view conditions remotely, receive notifications, and track history through a cloud-based dashboard.
-    </li>
-  </ul>
-
-  <h5 class="text-secondary mt-4">🌾 Use Cases</h5>
-  <ul>
-    <li>✅ Farms wanting to automate irrigation and climate response.</li>
-    <li>✅ Home gardeners or greenhouse owners aiming for low-maintenance care.</li>
-    <li>✅ Institutions and universities using this platform for educational demonstrations of smart farming.</li>
-    <li>✅ Agritech startups and research bodies looking to scale or experiment with IoT-based farming methods.</li>
-  </ul>
-
-  <h5 class="text-secondary mt-4">💡 Why Choose Our Solutions?</h5>
-  <p>
-    Our system isn't just about automation — it's about intelligence. We focus on actionable insights, remote accessibility, and scalable modules so you can start small and expand as your needs grow. Each tool is built with ease-of-use, reliability, and sustainability in mind.
-  </p>
-
-  <p class="fw-bold text-success mt-3">
-    Whether you're growing tomatoes in your backyard or managing a full-scale farm, our Smart Agriculture System brings you one step closer to a smarter, more resilient way of farming.
-  </p>
-</section>
-
-
-        <!-- Why Smart Agriculture Matters -->
-<section class="container my-5">
-  <h2 class="text-center mb-4">🌍 Why Smart Agriculture Matters</h2>
-  <div class="row">
-    <div class="col-md-6">
-      <p>
-        As climate change, water scarcity, and food demand increase, it's crucial to evolve farming with technology. Traditional methods can't keep up with modern challenges alone.
-      </p>
-      <ul>
-        <li>🌱 Manual watering often leads to waste or poor crop health</li>
-        <li>🌡️ Environmental conditions go unnoticed until it’s too late</li>
-        <li>📉 Yield suffers due to poor timing or limited insights</li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <p>
-        Our IoT-based smart farming systems tackle these issues with:
-      </p>
-      <ul>
-        <li>✅ Real-time data from temperature, soil, and gas sensors</li>
-        <li>✅ Automated irrigation and alert systems</li>
-        <li>✅ Scalable setups for farms, gardens, and greenhouses</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-
-        <!-- Use Cases & Benefits Section -->
-<section class="container my-5">
-    <h2 class="text-center mb-4">🧾 Use Cases & Benefits</h2>
-    <div class="row text-center">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">🌾 Smart Irrigation</h5>
-                    <p class="card-text">Irrigate only when soil moisture is low—saving water and improving crop health.</p>
+            <!-- Hero Section -->
+            <div
+                class="p-5 mb-5 bg-light rounded-3 shadow-sm text-center border-start border-5 border-success position-relative overflow-hidden">
+                <div class="position-relative z-1">
+                    <h1 class="display-4 fw-bold text-success mb-3">🌿 Smart Agriculture IoT Platform</h1>
+                    <p class="col-lg-8 mx-auto lead text-muted mb-4">
+                        Transforming traditional farming with data-driven automation. Monitor, analyze, and optimize
+                        your crops with affordable IoT technology.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="Contact.aspx" class="btn btn-success btn-lg px-4 gap-3">Get Started</a>
+                        <a href="About.aspx" class="btn btn-outline-secondary btn-lg px-4">Learn More</a>
+                    </div>
                 </div>
+                <i class="bi bi-flower1 position-absolute top-0 end-0 text-success opacity-10"
+                    style="font-size: 15rem; transform: translate(30%, -30%);"></i>
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">🌬️ Air Quality Monitoring</h5>
-                    <p class="card-text">Detect harmful gases or unpleasant smells in greenhouses or confined spaces.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">🌡️ Temperature Alerts</h5>
-                    <p class="card-text">Get alerts during heatwaves or extreme cold to protect crops and livestock.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">💧 Smart Pump Control</h5>
-                    <p class="card-text">Automatically starts the water pump when soil is dry, and alerts the user when the temperature is too hot for safe crop conditions.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Contact / Suggest a Feature Section -->
-<section class="container my-5">
-    <h2 class="text-center mb-4">🛠️ Modular IoT Capabilities</h2>
-<p class="text-center text-muted mb-4">Our smart farming platform is flexible and can grow with your needs — from a single device to a network of sensors and automation tools.</p>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter your name" />
+            <!-- Project Overview & Mission -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3 border-bottom pb-2 d-inline-block border-primary">🚀 Our Mission</h2>
+                    <p class="lead text-secondary">Smarter, Greener, More Efficient Farming.</p>
+                    <p class="text-muted">
+                        Welcome to the future of agriculture. We combine cutting-edge sensors with automation to help
+                        farmers and gardeners save water, increase yields, and reduce manual labor.
+                    </p>
+                    <ul class="list-unstyled mt-4 d-grid gap-2">
+                        <li class="d-flex align-items-start"><i
+                                class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                            <div><strong>Eco-Friendly:</strong> Optimized water usage reduces waste.</div>
+                        </li>
+                        <li class="d-flex align-items-start"><i
+                                class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                            <div><strong>Real-Time Data:</strong> Instant access to soil and air metrics.</div>
+                        </li>
+                        <li class="d-flex align-items-start"><i
+                                class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+                            <div><strong>Scalable:</strong> Perfect for backyards or commercial farms.</div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Your Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" />
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Your Message or Feature Suggestion</label>
-                    <textarea class="form-control" id="message" rows="4" placeholder="Describe your suggestion or question..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-
-
-        <!-- Latest News Section -->
-        <section class="bg-white p-4 rounded shadow">
-            <h3 class="mb-4 text-info text-center">📡 Latest News in IoT</h3>
-            <asp:Repeater ID="rptIoTNews" runat="server">
-                <HeaderTemplate>
+                <div class="col-lg-6">
                     <div class="row g-3">
-                </HeaderTemplate>
-                <ItemTemplate>
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title text-truncate"><%# Eval("Title") %></h5>
-                                <p class="card-text text-muted small"><%# Eval("PubDate") %></p>
-                                <a href='<%# Eval("Link") %>' class="btn btn-outline-primary mt-auto w-100" target="_blank">Read More</a>
+                        <div class="col-6">
+                            <div class="p-4 bg-white shadow-sm rounded-3 text-center border h-100">
+                                <i class="bi bi-moisture fs-1 text-info mb-3 d-block"></i>
+                                <h5 class="fw-bold">Soil Moisture</h5>
+                                <small class="text-muted">Automated Pump triggers</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 bg-white shadow-sm rounded-3 text-center border h-100">
+                                <i class="bi bi-thermometer-sun fs-1 text-warning mb-3 d-block"></i>
+                                <h5 class="fw-bold">Temp Alerts</h5>
+                                <small class="text-muted">Prevent heat damage</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 bg-white shadow-sm rounded-3 text-center border h-100">
+                                <i class="bi bi-wind fs-1 text-secondary mb-3 d-block"></i>
+                                <h5 class="fw-bold">Air Quality</h5>
+                                <small class="text-muted">Greenhouse safety</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-4 bg-white shadow-sm rounded-3 text-center border h-100">
+                                <i class="bi bi-phone fs-1 text-primary mb-3 d-block"></i>
+                                <h5 class="fw-bold">Mobile View</h5>
+                                <small class="text-muted">Monitor from anywhere</small>
                             </div>
                         </div>
                     </div>
-                </ItemTemplate>
-                <FooterTemplate>
+                </div>
+            </div>
+
+            <!-- How It Works & Use Cases -->
+            <div class="row g-5 mb-5">
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100 border-0 bg-light">
+                        <div class="card-body p-4">
+                            <h3 class="card-title fw-bold mb-4"><i
+                                    class="bi bi-gear-wide-connected text-secondary me-2"></i> How It Works</h3>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex align-items-center bg-white p-3 rounded shadow-sm">
+                                    <span class="badge bg-dark rounded-circle p-3 me-3 fs-5">1</span>
+                                    <div><strong>Sensors Collect Data:</strong> Soil, temp, and air readings.</div>
+                                </div>
+                                <div class="d-flex align-items-center bg-white p-3 rounded shadow-sm">
+                                    <span class="badge bg-primary rounded-circle p-3 me-3 fs-5">2</span>
+                                    <div><strong>Arduino Processes:</strong> Analyzes data in real-time.</div>
+                                </div>
+                                <div class="d-flex align-items-center bg-white p-3 rounded shadow-sm">
+                                    <span class="badge bg-success rounded-circle p-3 me-3 fs-5">3</span>
+                                    <div><strong>Action Taken:</strong> Pumps start, or alerts are sent.</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </FooterTemplate>
-            </asp:Repeater>
-        </section>
-
-
-        
-<!-- Contact / Suggest a Feature Section -->
-<section class="container my-5">
-    <h2 class="text-center mb-4">🛠️ Modular IoT Capabilities</h2>
-<p class="text-center text-muted mb-4">Our smart farming platform is flexible and can grow with your needs — from a single device to a network of sensors and automation tools.</p>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter your name" />
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Your Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" />
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100 border-0 bg-light">
+                        <div class="card-body p-4">
+                            <h3 class="card-title fw-bold mb-4"><i class="bi bi-people-fill text-secondary me-2"></i>
+                                Who Is This For?</h3>
+                            <ul class="list-group list-group-flush bg-transparent">
+                                <li class="list-group-item bg-transparent border-bottom"><i
+                                        class="bi bi-house-door text-success me-2"></i> <strong>Home Gardeners</strong>
+                                    wanting automation.</li>
+                                <li class="list-group-item bg-transparent border-bottom"><i
+                                        class="bi bi-shop text-success me-2"></i> <strong>Greenhouse Owners</strong>
+                                    needing climate control.</li>
+                                <li class="list-group-item bg-transparent border-bottom"><i
+                                        class="bi bi-building text-success me-2"></i> <strong>Institutions</strong> for
+                                    educational demos.</li>
+                                <li class="list-group-item bg-transparent"><i
+                                        class="bi bi-rocket text-success me-2"></i> <strong>Startups</strong> scaling
+                                    IoT solutions.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Your Message or Feature Suggestion</label>
-                    <textarea class="form-control" id="message" rows="4" placeholder="Describe your suggestion or question..."></textarea>
+            </div>
+
+            <!-- Latest News Section -->
+            <section class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0 border-start border-4 border-info ps-3">📡 Latest IoT News</h3>
+                    <a href="#" class="btn btn-sm btn-outline-info">View All Updates</a>
                 </div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-        </div>
-    </div>
-</section>
-        <style>
-            .card-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+                <asp:Repeater ID="rptIoTNews" runat="server">
+                    <HeaderTemplate>
+                        <div class="row g-4">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold text-dark text-truncate">
+                                        <%# Eval("Title") %>
+                                    </h5>
+                                    <h6 class="card-subtitle mb-2 text-muted small">
+                                        <%# Eval("PubDate") %>
+                                    </h6>
+                                    <p class="card-text text-truncate">Stay updated with the latest trends in smart
+                                        agriculture and IoT technology.</p>
+                                    <a href='<%# Eval("Link") %>'
+                                        class="btn btn-link text-decoration-none p-0 stretched-link"
+                                        target="_blank">Read Article <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </div>
+                    </FooterTemplate>
+                </asp:Repeater>
+            </section>
 
-        </style>
-       
-<script>
-    async function getCurrentWeatherSummary() {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                const apiKey = "25593c138e653f35d1f041717ccfa151";
+            <!-- Feedback Form -->
+            <div class="bg-primary bg-opacity-10 rounded-3 p-5 mb-5 text-center position-relative overflow-hidden">
+                <div class="position-relative z-1">
+                    <h2 class="fw-bold">Have a Suggestion?</h2>
+                    <p class="mb-4 text-muted">We are constantly improving. Let us know what modular feature you'd like
+                        to see next!</p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <form class="bg-white p-4 rounded shadow-sm text-start">
+                                <div class="mb-3">
+                                    <label class="form-label small text-uppercase text-muted fw-bold">Name</label>
+                                    <input type="text" class="form-control" placeholder="John Doe">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-uppercase text-muted fw-bold">Feedback</label>
+                                    <textarea class="form-control" rows="3"
+                                        placeholder="I'd like to suggest..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Submit Suggestion</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <i class="bi bi-lightbulb position-absolute top-0 start-0 text-warning opacity-25"
+                    style="font-size: 10rem; transform: translate(-30%, -30%);"></i>
+            </div>
 
-                // Get city name
-                const geoRes = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`);
-                const geoData = await geoRes.json();
-                const city = geoData[0]?.name || "Your Area";
-                document.getElementById("weather-location").innerText = city;
+        </main>
 
-                // Get current weather
-                const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
-                const weather = await weatherRes.json();
+        <!-- Weather Script (Preserved) -->
+        <script>
+            async function getCurrentWeatherSummary() {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(async (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const apiKey = "25593c138e653f35d1f041717ccfa151";
 
-                const temp = weather.main.temp;
-                const humidity = weather.main.humidity;
-                const condition = weather.weather[0].main;
+                        try {
+                            const geoRes = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`);
+                            const geoData = await geoRes.json();
+                            const city = geoData[0]?.name || "Local Area";
+                            document.getElementById("weather-location").innerText = city;
 
-                document.getElementById("weather-temp").innerText = `${Math.round(temp)}°C`;
+                            const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
+                            const weather = await weatherRes.json();
 
-                // Decide comment based on temperature and condition
-                let comment = "";
-                if (condition.includes("Rain")) {
-                    comment = "🌧️ Rainy – plan accordingly";
-                } else if (temp >= 32) {
-                    comment = "☀️ Too hot for crops – water regularly";
-                } else if (temp >= 20 && temp <= 30 && humidity >= 40 && humidity <= 80) {
-                    comment = "🌱 Good for planting";
+                            const temp = weather.main.temp;
+                            const humidity = weather.main.humidity;
+                            const condition = weather.weather[0].main;
+
+                            document.getElementById("weather-temp").innerText = `${Math.round(temp)}°C`;
+
+                            let comment = "";
+                            if (condition.includes("Rain")) {
+                                comment = "🌧️ Rainy – Monitor sensitive crops.";
+                            } else if (temp >= 32) {
+                                comment = "☀️ High Temp – Ensure adequate watering.";
+                            } else if (temp >= 20 && temp <= 30 && humidity >= 40 && humidity <= 80) {
+                                comment = "🌱 Ideal Growing Conditions.";
+                            } else {
+                                comment = "🧭 Check detailed metrics.";
+                            }
+                            document.getElementById("weather-comment").innerText = comment;
+                        } catch (e) {
+                            document.getElementById("weather-comment").innerText = "Data unavailable";
+                        }
+                    }, () => {
+                        document.getElementById("weather-comment").innerText = "Location access denied";
+                    });
                 } else {
-                    comment = "🧭 Check conditions before field work";
+                    document.getElementById("weather-comment").innerText = "Geolocation not supported";
                 }
+            }
 
-                document.getElementById("weather-comment").innerText = comment;
-            });
-        } else {
-            document.getElementById("weather-comment").innerText = "Geolocation not supported.";
-        }
-    }
+            window.onload = function () {
+                getCurrentWeatherSummary();
+            };
+        </script>
 
-    window.onload = function () {
-        getCurrentWeatherSummary();
-    };
-</script>
+        <style>
+            .hover-shadow:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+                transition: all 0.3s ease;
+            }
 
-    </main>
-</asp:Content>
+            .transition-all {
+                transition: all 0.3s ease;
+            }
+        </style>
+    </asp:Content>

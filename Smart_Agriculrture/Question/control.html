@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Papers - Smart Agriculture</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: #198754;
+            margin-bottom: 1rem;
+        }
+
+        .btn-custom {
+            background-color: #198754;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: #146c43;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <div class="header text-center position-relative">
+        <a href="../Default.aspx" class="back-btn">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        <div class="container">
+            <h1 class="display-4 fw-bold">Question Papers</h1>
+            <p class="lead opacity-75">Select your semester to access previous year question papers</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mb-5">
+        <div class="row g-4 justify-content-center">
+
+            <!-- Sem 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 p-4 text-center">
+                    <div class="card-icon">
+                        <i class="bi bi-1-circle-fill"></i>
+                    </div>
+                    <h3 class="card-title fw-bold mb-3">Semester I</h3>
+                    <p class="card-text text-muted mb-4">Foundational courses and basic engineering sciences.</p>
+                    <a href="I/index.html" class="btn btn-custom stretched-link">View Papers</a>
+                </div>
+            </div>
+
+            <!-- Sem 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 p-4 text-center">
+                    <div class="card-icon">
+                        <i class="bi bi-2-circle-fill"></i>
+                    </div>
+                    <h3 class="card-title fw-bold mb-3">Semester II</h3>
+                    <p class="card-text text-muted mb-4">Advanced core concepts and programming basics.</p>
+                    <a href="II/index.html" class="btn btn-custom stretched-link">View Papers</a>
+                </div>
+            </div>
+
+            <!-- Sem 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 p-4 text-center">
+                    <div class="card-icon">
+                        <i class="bi bi-3-circle-fill"></i>
+                    </div>
+                    <h3 class="card-title fw-bold mb-3">Semester III</h3>
+                    <p class="card-text text-muted mb-4">Specialized subjects and lab practicals.</p>
+                    <a href="III/index.html" class="btn btn-custom stretched-link">View Papers</a>
+                </div>
+            </div>
+
+            <!-- Sem 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 p-4 text-center">
+                    <div class="card-icon">
+                        <i class="bi bi-4-circle-fill"></i>
+                    </div>
+                    <h3 class="card-title fw-bold mb-3">Semester IV</h3>
+                    <p class="card-text text-muted mb-4">Final projects, electives, and advanced modules.</p>
+                    <a href="IV/index.html" class="btn btn-custom stretched-link">View Papers</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-muted mt-auto" style="background-color: #e9ecef;">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Smart Agriculture. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagarika - Resume</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --bg-light: #f8fafc;
+            --sidebar-bg: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
+            background: #e2e8f0;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .cv-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--sidebar-bg);
+            color: #fff;
+            padding: 30px 20px;
+        }
+
+        .profile-img-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .sidebar h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .sidebar .title {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 4px;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+            .sidebar-list li {
+                margin-bottom: 8px;
+                word-break: break-word;
+            }
+
+        /* Main Content */
+        .main-content {
+            padding: 35px 30px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 4px;
+        }
+
+        /* Items */
+        .item {
+            margin-bottom: 18px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .item-title {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .item-date {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            background: #eff6ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .item-sub {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .item-body {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+            .item-body ul {
+                padding-left: 16px;
+                margin-top: 4px;
+            }
+
+            .item-body li {
+                margin-bottom: 4px;
+            }
+
+        /* Tags */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background: #334155;
+            color: #f8fafc;
+            font-size: 11.5px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .cv-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cv-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-img-container">
+                <img src="~/tuku.jpg" alt="Sagarika Profile Photo" class="profile-img">
+            </div>
+
+            <h1>Sagarika Halder</h1>
+            <div class="title">Aspiring Banking Professional</div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Contact</div>
+                <ul class="sidebar-list">
+                    <li>📱 7364844053</li>
+                    <li>📍 Belpahari, Jhargram,<br>West Bengal - 721501</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Personal Details</div>
+                <ul class="sidebar-list">
+                    <li>📅 <strong>DOB:</strong> 19 July 1999</li>
+                    <li>🌐 <strong>Nationality:</strong> Indian</li>
+                    <li>🗣 <strong>Languages:</strong> Bengali, Hindi, English</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Computer Skills</div>
+                <div class="skills-grid">
+                    <span class="tag">2 Years ADIT+</span>
+                    <span class="tag">MS Word</span>
+                    <span class="tag">MS Excel</span>
+                    <span class="tag">MS PowerPoint</span>
+                    <span class="tag">Internet & Email</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Main Content -->
+        <main class="main-content">
+            <!-- Career Objective -->
+            <section style="margin-bottom: 24px;">
+                <div class="section-title">Career Objective</div>
+                <p class="item-body">
+                    To build a successful career in the banking and financial services sector by utilizing my academic background, computer skills, communication abilities, and willingness to learn, while contributing positively to organizational goals.
+                </p>
+            </section>
+
+            <!-- Education -->
+            <section style="margin-bottom: 24px;">
+                <div class="section-title">Educational Qualification</div>
+
+                <div class="item">
+                    <div class="item-header">
+                        <span class="item-title">B.Ed.</span>
+                        <span class="item-date">2025</span>
+                    </div>
+                    <div class="item-sub">Kazi Nazrul Minority College of Education</div>
+                    <div class="item-body">Marks: 77.30%</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-header">
+                        <span class="item-title">M.A. in Bengali</span>
+                        <span class="item-date">2023</span>
+                    </div>
+                    <div class="item-sub">Vidyasagar University</div>
+                    <div class="item-body">Marks: 78.40% (CGPA: 7.94)</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-header">
+                        <span class="item-title">B.A. in Bengali</span>
+                        <span class="item-date">2021</span>
+                    </div>
+                    <div class="item-sub">Silda Chandra Sekhar College</div>
+                    <div class="item-body">Marks: 85.37% (CGPA: 8.55)</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-header">
+                        <span class="item-title">Higher Secondary</span>
+                        <span class="item-date">2018</span>
+                    </div>
+                    <div class="item-sub">Belpahari SC High School</div>
+                    <div class="item-body">Marks: 78.80%</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-header">
+                        <span class="item-title">Madhyamik</span>
+                        <span class="item-date">2016</span>
+                    </div>
+                    <div class="item-sub">Sri Ramakrishna Saradapeeth Girls' High School (H.S.)</div>
+                    <div class="item-body">Marks: 67.28%</div>
+                </div>
+            </section>
+
+            <!-- Key Skills & Strengths -->
+            <section>
+                <div class="section-title">Key Skills & Strengths</div>
+                <div class="item-body">
+                    <ul>
+                        <li>Good communication and interpersonal skills</li>
+                        <li>Basic analytical and problem-solving ability</li>
+                        <li>Computer and office application proficiency</li>
+                        <li>Quick learner with a positive and adaptable attitude</li>
+                        <li>Good organizational and time-management skills</li>
+                        <li>Sincere, honest, hardworking, punctual, and disciplined</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
